@@ -1,3 +1,4 @@
+import 'package:ehatid_driver_app/Screens/Registration/sign_up.dart';
 import 'package:ehatid_driver_app/Screens/Welcome/components/background.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,24 @@ class Body extends StatelessWidget{
           ),
           Text(
             "Work with convenience, and \n get more passengers along your way!", textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 15, color: Color(0xff646262), letterSpacing: 1, fontWeight: FontWeight.w500),
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 15, color: Color(0xff646262), letterSpacing: -0.5, fontWeight: FontWeight.w500),
           ),
+          GestureDetector(
+            child: Text("Skip",
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
+            ),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
+            },
+          ),
+          GestureDetector(
+            child: Text("Next",
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
+            ),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
+            },
+          )
         ],
       ),
     );
