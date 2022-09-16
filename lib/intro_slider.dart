@@ -22,29 +22,29 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       new Slide(
         title: "More Passengers",
         description:
-        "Work with convenience, and get more \n passengers along your way!",
-        pathImage: "assets/images/illus1.png",
+        "No need to worry about getting passengers, \n as they will be able to connect directly to you",
+        pathImage: "assets/images/illus8.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Convenient",
-        description: "Book movie tickets for your family and friends!",
+        description: "Efficient way of acquiring new \n passengers for all stray tricycle drivers",
         pathImage: "assets/images/illus2.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Earn More",
-        description: "Best discounts on every single service we offer!",
-        pathImage: "assets/images/illus3.png",
+        description: "Higher revenue pay for maximizing \n every trip journey",
+        pathImage: "assets/images/illus11.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Accept a Job",
-        description: "Book tickets of any transportation and travel the world!",
-        pathImage: "assets/images/illus4.png",
+        description: "Register in TODA G5 Terminal and \n experience your first trip.",
+        pathImage: "assets/images/ehatid logo.png",
       ),
     );
   }
@@ -58,17 +58,16 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           width: double.infinity,
           height: double.infinity,
           child: Container(
-            margin: EdgeInsets.only(bottom: 160, top: 60),
+            margin: EdgeInsets.only(bottom: 10, top: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
-                  child: Image.asset(
+                    child: Image.asset(
                     currentSlide.pathImage.toString(),
                     matchTextDirection: true,
-                    height: 230,
+                    height: 250,
                   ),
                 ),
                 Container(
@@ -120,11 +119,10 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       ),
       renderDoneBtn: Text(
         "Done",
-        style: TextStyle(color: Colors.green[700]),
+        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
       ),
-      colorDoneBtn: Colors.white,
-      colorActiveDot: Colors.white,
-      sizeDot: 8.0,
+      colorDot: Colors.white,
+      sizeDot: 10.0,
       typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
       listCustomTabs: this.renderListCustomTabs(),
       scrollPhysics: BouncingScrollPhysics(),
