@@ -24,20 +24,12 @@ class Body extends StatelessWidget{
           ),
           GestureDetector(
             child: Text("Skip",
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
             ),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
             },
           ),
-          GestureDetector(
-            child: Text("Next",
-              style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
-            ),
-            onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
-            },
-          )
         ],
       ),
     );
