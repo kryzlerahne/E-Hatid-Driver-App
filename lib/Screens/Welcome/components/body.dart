@@ -1,5 +1,5 @@
-import 'package:ehatid_driver_app/Screens/Registration/sign_up.dart';
 import 'package:ehatid_driver_app/Screens/Welcome/components/background.dart';
+import 'package:ehatid_driver_app/signup.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget{
@@ -27,7 +27,7 @@ class Body extends StatelessWidget{
               style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
             ),
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUpPage()));
             },
           ),
         ],
