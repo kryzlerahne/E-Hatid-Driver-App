@@ -110,10 +110,13 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
   Widget build(BuildContext context) {
     return IntroSlider(
       backgroundColorAllSlides: Colors.yellow,
-      renderSkipBtn: Text("Skip"),
+      renderSkipBtn: Text(
+        "Skip",
+        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
+      ),
       renderNextBtn: Text(
         "Next",
-        style: TextStyle(color: Colors.green[700]),
+        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
       ),
       renderDoneBtn: Text(
         "Done",
