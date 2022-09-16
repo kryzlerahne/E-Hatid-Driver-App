@@ -45,8 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
                ],
              ),
            ),
-           FadeAnimation(1,
-               Container(
+            Container(
              margin: const EdgeInsets.fromLTRB(30, 10, 30, 0),
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,8 +61,8 @@ class _SignUpPageState extends State<SignUpPage> {
                    "Be part of the TODA G5 Lourdes Terminal", textAlign: TextAlign.center,
                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: Color(0xff272727), letterSpacing: -0.5, fontWeight: FontWeight.w500),
                  ),
-                 FadeAnimation(1,
-                   Container(
+                 FadeInDown(
+                   child: Container(
                      margin: const EdgeInsets.symmetric(vertical: 15),
                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                      decoration: BoxDecoration(
@@ -111,8 +110,8 @@ class _SignUpPageState extends State<SignUpPage> {
                      ),
                    ),
                  ),
-                 FadeAnimation(1,
-                  MaterialButton(
+                 FadeInDown(
+                  child: MaterialButton(
                        onPressed: () {
                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                        },
@@ -127,10 +126,22 @@ class _SignUpPageState extends State<SignUpPage> {
                      ),),
                    ),
                  ),
+                 FadeInDown(
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Text("Already have an account?", style: TextStyle(
+                           color: Colors.grey.shade700
+                         ),),
+                         TextButton(
+                             onPressed: () {},
+                             child: Text("Login",),
+                         )
+                       ],
+                     ) )
                ],
              ),
            )
-           ),
          ],
        ),
      ),

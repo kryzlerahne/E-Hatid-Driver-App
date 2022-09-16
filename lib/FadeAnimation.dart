@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/**import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -34,3 +34,4 @@ class FadeAnimation extends StatelessWidget {
     );
   }
 }
+    **/
