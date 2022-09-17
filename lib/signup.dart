@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:ehatid_driver_app/FadeAnimation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intro_slider/intro_slider.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
           icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black,),
         ),
       ),
-     body: Center(
+     body: SingleChildScrollView(
        child: Stack(
          children: <Widget>[
            Container(
@@ -38,15 +39,21 @@ class _SignUpPageState extends State<SignUpPage> {
                children: <Widget>[
                  Positioned(
                    top: 0,
-                   child: Image.asset("assets/images/Vector 1.png",
+                   child: Image.asset("assets/images/Vector 3.png",
                      width: size.width,
                    ),
+                 ),
+                 Positioned(
+                   bottom: 0,
+                   child: Image.asset("assets/images/Vector 2.png",
+                     width: size.width,
+                  ),
                  ),
                ],
              ),
            ),
             Container(
-             margin: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+             margin: const EdgeInsets.fromLTRB(30, 60, 30, 0),
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.center,
                children: <Widget> [
@@ -64,7 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
                  FadeInDown(
                    child: Container(
                      margin: const EdgeInsets.symmetric(vertical: 15),
-                     padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                      decoration: BoxDecoration(
                        color: Colors.white,
                        boxShadow: [
@@ -131,14 +138,34 @@ class _SignUpPageState extends State<SignUpPage> {
                        mainAxisAlignment: MainAxisAlignment.center,
                        children: [
                          Text("Already have an account?", style: TextStyle(
-                           color: Colors.grey.shade700
+                           color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
                          ),),
                          TextButton(
                              onPressed: () {},
-                             child: Text("Login",),
+                             child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,  letterSpacing: -0.5, fontWeight: FontWeight.w600),),
                          )
                        ],
-                     ) )
+                     ),
+                 ),
+                 FadeInDown(
+                   child:  OrDivider(),
+                 ),
+                 FadeInDown(
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget> [
+                         SocialIcons(iconSrc: "assets/images/google.png",
+                         press: () {},
+                         ),
+                         SocialIcons2(iconSrc: "assets/images/facebook.png",
+                           press: () {},
+                         ),
+                         SocialIcons3(iconSrc: "assets/images/twitter.png",
+                           press: () {},
+                         ),
+                       ],
+                     ),
+                 ),
                ],
              ),
            )
@@ -146,5 +173,137 @@ class _SignUpPageState extends State<SignUpPage> {
        ),
      ),
     );
+  }
+}
+
+class SocialIcons extends StatelessWidget {
+  final String iconSrc;
+  final Function press;
+  const SocialIcons({
+    Key? key,
+    required this.iconSrc,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press(),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2,
+          color: Color(0xFFC5331E),
+        ),
+        shape: BoxShape.circle,
+        color: Color(0xFFC5331E),
+      ),
+      child: Image.asset(iconSrc,
+      height: 40,
+      width: 40,),
+      ),
+
+    );
+  }
+}
+
+class SocialIcons2 extends StatelessWidget {
+  final String iconSrc;
+  final Function press;
+  const SocialIcons2({
+    Key? key,
+    required this.iconSrc,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press(),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Color(0xFF4E6297),
+          ),
+          shape: BoxShape.circle,
+          color: Color(0xFF4E6297),
+        ),
+        child: Image.asset(iconSrc,
+          height: 40,
+          width: 40,),
+      ),
+
+    );
+  }
+}
+
+class SocialIcons3 extends StatelessWidget {
+  final String iconSrc;
+  final Function press;
+  const SocialIcons3({
+    Key? key,
+    required this.iconSrc,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press(),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Color(0xFF55ACE3),
+          ),
+          shape: BoxShape.circle,
+          color: Color(0xFF55ACE3),
+        ),
+        child: Image.asset(iconSrc,
+          height: 40,
+          width: 40,),
+      ),
+
+    );
+  }
+}
+
+class OrDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: size.width * 0.8,
+      child: Row(
+        children: <Widget> [
+          buildDivider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+            child: Text("Or sign up using", style: TextStyle(
+              color: Color(0xFF494949),
+              fontWeight: FontWeight.w500, fontFamily: 'Montserrat', fontSize: 14, letterSpacing: -0.5,
+              ),
+            ),
+          ),
+          buildDivider(),
+        ],
+      ),
+    );
+  }
+
+  Expanded buildDivider() {
+    return Expanded(
+          child: Divider(
+            color: Color(0xFF272727),
+          ),
+        );
   }
 }

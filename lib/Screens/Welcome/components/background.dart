@@ -11,18 +11,20 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      color: Color(0xFFFED90F),
       height: size.height,
       width: double.infinity,
+      color: Color(0xFFFED90F),// <--- add here
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
             top: 0,
-            child: Image.asset("assets/images/Vector 1.png",
+            child: Image.asset(
+              "assets/images/Vector 1.png",
               width: size.width,
             ),
           ),
+          child,
         ],
       ),
     );

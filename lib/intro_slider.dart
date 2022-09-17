@@ -107,8 +107,9 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroSlider(
-      backgroundColorAllSlides: Colors.yellow,
+    return Background(
+      child: IntroSlider(
+      //backgroundColorAllSlides: Colors.yellow,
       renderSkipBtn: Text(
         "Skip",
         style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
@@ -130,6 +131,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
         context,
         MaterialPageRoute(
           builder: (_) => SignUpPage(),
+          ),
         ),
       ),
     );
