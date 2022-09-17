@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:ehatid_driver_app/FadeAnimation.dart';
+import 'package:ehatid_driver_app/Screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -120,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
                  FadeInDown(
                   child: MaterialButton(
                        onPressed: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                         Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginScreen()));
                        },
                      color: Colors.black,
                      shape: RoundedRectangleBorder(
@@ -141,7 +142,12 @@ class _SignUpPageState extends State<SignUpPage> {
                            color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
                          ),),
                          TextButton(
-                             onPressed: () {},
+                             onPressed: () {
+                               Navigator.pushReplacement(context, MaterialPageRoute(
+                                   builder: (_) => LoginScreen(),
+                               ),
+                               );
+                             },
                              child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,  letterSpacing: -0.5, fontWeight: FontWeight.w600),),
                          )
                        ],

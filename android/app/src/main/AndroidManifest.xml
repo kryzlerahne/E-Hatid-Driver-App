@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ehatid_driver_app">
+    package="com.example.ehatid_driver_app"
+    android:installLocation="auto">
    <application
-        android:label="ehatid_driver_app"
+        android:label="E-Hatid Driver App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
