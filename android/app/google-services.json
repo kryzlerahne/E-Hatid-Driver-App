@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054804925396",
+    "project_id": "e-hatid-3c7b3",
+    "storage_bucket": "e-hatid-3c7b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054804925396:android:f24bf43512f7063598d441",
+        "android_client_info": {
+          "package_name": "com.example.ehatid_driver_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054804925396-51dqk6qu74f93f6vmv3f2pfgnkeb76dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU1zl3HeaW7laJpTHSY70G6yUkGqUANOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054804925396-51dqk6qu74f93f6vmv3f2pfgnkeb76dt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
