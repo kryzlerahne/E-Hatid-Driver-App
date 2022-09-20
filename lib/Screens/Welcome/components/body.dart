@@ -12,7 +12,7 @@ class Body extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget> [
           Image.asset("assets/images/ehatid logo.png",
-           height: size.height * 0.3,
+            height: size.height * 0.3,
           ),
           Text(
             "Accept a job",

@@ -41,6 +41,10 @@ dependencies:
   simple_animations: ^5.0.0+2
   animate_do: ^2.1.0
   intl_phone_number_input: ^0.7.0+2
+  firebase_auth: ^3.9.0
+
+  #Firebase Database
+  cloud_firestore: ^3.4.8
 
 dev_dependencies:
   flutter_test:

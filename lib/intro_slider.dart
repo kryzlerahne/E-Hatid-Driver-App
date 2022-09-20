@@ -64,7 +64,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    child: Image.asset(
+                  child: Image.asset(
                     currentSlide.pathImage.toString(),
                     matchTextDirection: true,
                     height: 250,
@@ -109,28 +109,28 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
   Widget build(BuildContext context) {
     return Background(
       child: IntroSlider(
-      //backgroundColorAllSlides: Colors.yellow,
-      renderSkipBtn: Text(
-        "Skip",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
-      ),
-      renderNextBtn: Text(
-        "Next",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
-      ),
-      renderDoneBtn: Text(
-        "Done",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
-      ),
-      colorDot: Colors.white,
-      sizeDot: 10.0,
-      typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
-      listCustomTabs: this.renderListCustomTabs(),
-      scrollPhysics: BouncingScrollPhysics(),
-      onDonePress: () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SignUpPage(),
+        //backgroundColorAllSlides: Colors.yellow,
+        renderSkipBtn: Text(
+          "Skip",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
+        ),
+        renderNextBtn: Text(
+          "Next",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
+        ),
+        renderDoneBtn: Text(
+          "Done",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
+        ),
+        colorDot: Colors.white,
+        sizeDot: 10.0,
+        typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
+        listCustomTabs: this.renderListCustomTabs(),
+        scrollPhysics: BouncingScrollPhysics(),
+        onDonePress: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SignUpPage(),
           ),
         ),
       ),

@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:ehatid_driver_app/FadeAnimation.dart';
 import 'package:ehatid_driver_app/Screens/login.dart';
+import 'package:ehatid_driver_app/main_page.dart';
+import 'package:ehatid_driver_app/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -29,153 +31,157 @@ class _SignUpPageState extends State<SignUpPage> {
           icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black,),
         ),
       ),
-     body: SingleChildScrollView(
-       child: Stack(
-         children: <Widget>[
-           Container(
-             height: size.height,
-             width: double.infinity,
-             child: Stack(
-               alignment: Alignment.center,
-               children: <Widget>[
-                 Positioned(
-                   top: 0,
-                   child: Image.asset("assets/images/Vector 3.png",
-                     width: size.width,
-                   ),
-                 ),
-                 Positioned(
-                   bottom: 0,
-                   child: Image.asset("assets/images/Vector 2.png",
-                     width: size.width,
-                  ),
-                 ),
-               ],
-             ),
-           ),
-            Container(
-             margin: const EdgeInsets.fromLTRB(30, 60, 30, 0),
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.center,
-               children: <Widget> [
-                 Image.asset("assets/images/illus12.png",
-                   width: 200
-                 ),
-                 Text(
-                   "Sign-up to E-Hatid",
-                   style: TextStyle(fontFamily: 'Montserrat', fontSize: 28, letterSpacing: -2, fontWeight: FontWeight.bold),
-                 ),
-                 Text(
-                   "Be part of the TODA G5 Lourdes Terminal", textAlign: TextAlign.center,
-                   style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: Color(0xff272727), letterSpacing: -0.5, fontWeight: FontWeight.w500),
-                 ),
-                 FadeInDown(
-                   child: Container(
-                     margin: const EdgeInsets.symmetric(vertical: 15),
-                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       boxShadow: [
-                         BoxShadow(
-                           color: Color(0xffeeeeee),
-                           blurRadius: 10,
-                           offset: Offset(0,4)
-                         )
-                       ],
-                       borderRadius: BorderRadius.circular(50),
-                       border: Border.all(color: Colors.black.withOpacity(0.13))
+     body: SafeArea(
+       child: Center(
+         child: Stack(
+           children: <Widget>[
+             Container(
+               height: size.height,
+               width: double.infinity,
+               child: Stack(
+                 alignment: Alignment.center,
+                 children: <Widget>[
+                   Positioned(
+                     top: 0,
+                     child: Image.asset("assets/images/Vector 3.png",
+                       width: size.width,
                      ),
-                     child: Stack(
-                       children: [
-                         InternationalPhoneNumberInput(
-                           onInputChanged: (value) {},
-                           cursorColor: Colors.black,
-                           formatInput: false,
-                           initialValue: PhoneNumber(isoCode: 'PH', dialCode:'+63'),
-                           selectorConfig: SelectorConfig(
-                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET
-                           ),
-                           inputDecoration: InputDecoration(
-                             contentPadding: EdgeInsets.only(bottom: 15, left: 0),
-                             border: InputBorder.none,
-                             hintText: 'Phone Number',
-                             hintStyle: TextStyle(
-                               color: Colors.grey.shade500, fontFamily: 'Montserrat', fontSize: 16, fontWeight: FontWeight.w400
+                   ),
+                   Positioned(
+                     bottom: 0,
+                     child: Image.asset("assets/images/Vector 2.png",
+                       width: size.width,
+                    ),
+                   ),
+                 ],
+               ),
+             ),
+              SingleChildScrollView(
+                child: Container(
+                 margin: const EdgeInsets.fromLTRB(30, 60, 30, 0),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: <Widget> [
+                     Image.asset("assets/images/illus12.png",
+                       width: 200
+                     ),
+                     Text(
+                       "Sign-up to E-Hatid",
+                       style: TextStyle(fontFamily: 'Montserrat', fontSize: 28, letterSpacing: -2, fontWeight: FontWeight.bold),
+                     ),
+                     Text(
+                       "Be part of the TODA G5 Lourdes Terminal", textAlign: TextAlign.center,
+                       style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: Color(0xff272727), letterSpacing: -0.5, fontWeight: FontWeight.w500),
+                     ),
+                     FadeInDown(
+                       child: Container(
+                         margin: const EdgeInsets.symmetric(vertical: 15),
+                         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                         decoration: BoxDecoration(
+                           color: Colors.white,
+                           boxShadow: [
+                             BoxShadow(
+                               color: Color(0xffeeeeee),
+                               blurRadius: 10,
+                               offset: Offset(0,4)
                              )
-                           ),
+                           ],
+                           borderRadius: BorderRadius.circular(50),
+                           border: Border.all(color: Colors.black.withOpacity(0.13))
                          ),
-                         Positioned(
-                           left: 85,
-                           top: 8,
-                           bottom:8,
-                           child: Container(
-                             height: 40,
-                             width: 1,
-                             color: Colors.black.withOpacity(0.13),
-                           ),
-                         )
-                       ],
-                     ),
-                   ),
-                 ),
-                 FadeInDown(
-                  child: MaterialButton(
-                       onPressed: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginScreen()));
-                       },
-                     color: Colors.black,
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(50)
-                     ),
-                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                     minWidth: double.infinity,
-                     child: Text("Sign up with Phone", style: TextStyle(
-                       color: Colors.white, fontFamily: 'Montserrat', fontSize: 14
-                     ),),
-                   ),
-                 ),
-                 FadeInDown(
-                     child: Row(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: [
-                         Text("Already have an account?", style: TextStyle(
-                           color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
-                         ),),
-                         TextButton(
-                             onPressed: () {
-                               Navigator.pushReplacement(context, MaterialPageRoute(
-                                   builder: (_) => LoginScreen(),
+                         child: Stack(
+                           children: [
+                             InternationalPhoneNumberInput(
+                               onInputChanged: (value) {},
+                               cursorColor: Colors.black,
+                               formatInput: false,
+                               initialValue: PhoneNumber(isoCode: 'PH', dialCode:'+63'),
+                               selectorConfig: SelectorConfig(
+                                 selectorType: PhoneInputSelectorType.BOTTOM_SHEET
                                ),
-                               );
-                             },
-                             child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,  letterSpacing: -0.5, fontWeight: FontWeight.w600),),
-                         )
-                       ],
+                               inputDecoration: InputDecoration(
+                                 contentPadding: EdgeInsets.only(bottom: 15, left: 0),
+                                 border: InputBorder.none,
+                                 hintText: 'Phone Number',
+                                 hintStyle: TextStyle(
+                                   color: Colors.grey.shade500, fontFamily: 'Montserrat', fontSize: 16, fontWeight: FontWeight.w400
+                                 )
+                               ),
+                             ),
+                             Positioned(
+                               left: 85,
+                               top: 8,
+                               bottom:8,
+                               child: Container(
+                                 height: 40,
+                                 width: 1,
+                                 color: Colors.black.withOpacity(0.13),
+                               ),
+                             )
+                           ],
+                         ),
+                       ),
                      ),
-                 ),
-                 FadeInDown(
-                   child:  OrDivider(),
-                 ),
-                 FadeInDown(
-                     child: Row(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: <Widget> [
-                         SocialIcons(iconSrc: "assets/images/google.png",
-                         press: () {},
+                     FadeInDown(
+                      child: MaterialButton(
+                           onPressed: () {
+                             Navigator.push(context, MaterialPageRoute(builder: (context) =>RegisterPage()));
+                           },
+                         color: Colors.black,
+                         shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(50)
                          ),
-                         SocialIcons2(iconSrc: "assets/images/facebook.png",
-                           press: () {},
-                         ),
-                         SocialIcons3(iconSrc: "assets/images/twitter.png",
-                           press: () {},
-                         ),
-                       ],
+                         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                         minWidth: double.infinity,
+                         child: Text("Sign up with Phone", style: TextStyle(
+                           color: Colors.white, fontFamily: 'Montserrat', fontSize: 14
+                         ),),
+                       ),
                      ),
+                     FadeInDown(
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             Text("Already have an account?", style: TextStyle(
+                               color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
+                             ),),
+                             TextButton(
+                                 onPressed: () {
+                                   Navigator.pushReplacement(context, MaterialPageRoute(
+                                       builder: (_) => MainPage(),
+                                   ),
+                                   );
+                                 },
+                                 child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,  letterSpacing: -0.5, fontWeight: FontWeight.w600),),
+                             )
+                           ],
+                         ),
+                     ),
+                     FadeInDown(
+                       child:  OrDivider(),
+                     ),
+                     FadeInDown(
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: <Widget> [
+                             SocialIcons(iconSrc: "assets/images/google.png",
+                             press: () {},
+                             ),
+                             SocialIcons2(iconSrc: "assets/images/facebook.png",
+                               press: () {},
+                             ),
+                             SocialIcons3(iconSrc: "assets/images/twitter.png",
+                               press: () {},
+                             ),
+                           ],
+                         ),
+                     ),
+                   ],
                  ),
-               ],
              ),
-           )
-         ],
+              )
+           ],
+         ),
        ),
      ),
     );
