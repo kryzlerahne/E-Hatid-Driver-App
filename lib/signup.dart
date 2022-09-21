@@ -1,11 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ehatid_driver_app/FadeAnimation.dart';
-import 'package:ehatid_driver_app/Screens/login.dart';
 import 'package:ehatid_driver_app/main_page.dart';
-import 'package:ehatid_driver_app/register_page.dart';
+import 'package:ehatid_driver_app/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:intro_slider/intro_slider.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -14,6 +11,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController phoneController = TextEditingController();
+  String dialCodeDigits = "+63";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,12 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Color(0xFFFEDF3F),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black,),
-        ),
       ),
      body: SafeArea(
        child: Center(
@@ -92,12 +85,20 @@ class _SignUpPageState extends State<SignUpPage> {
                          child: Stack(
                            children: [
                              InternationalPhoneNumberInput(
-                               onInputChanged: (value) {},
+                               onInputChanged: (country) {
+                                 setState(() {
+                                   dialCodeDigits = country.dialCode!;
+                                 });
+                               },
                                cursorColor: Colors.black,
                                formatInput: false,
-                               initialValue: PhoneNumber(isoCode: 'PH', dialCode:'+63'),
+                               textFieldController: phoneController,
+                               maxLength: 10,
+                               initialValue: PhoneNumber(
+                                   isoCode: 'PH', dialCode: '+63'),
                                selectorConfig: SelectorConfig(
-                                 selectorType: PhoneInputSelectorType.BOTTOM_SHEET
+                                   selectorType: PhoneInputSelectorType
+                                       .BOTTOM_SHEET
                                ),
                                inputDecoration: InputDecoration(
                                  contentPadding: EdgeInsets.only(bottom: 15, left: 0),
@@ -105,7 +106,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                  hintText: 'Phone Number',
                                  hintStyle: TextStyle(
                                    color: Colors.grey.shade500, fontFamily: 'Montserrat', fontSize: 16, fontWeight: FontWeight.w400
-                                 )
+                                 ),
                                ),
                              ),
                              Positioned(
@@ -124,9 +125,27 @@ class _SignUpPageState extends State<SignUpPage> {
                      ),
                      FadeInDown(
                       child: MaterialButton(
-                           onPressed: () {
-                             Navigator.push(context, MaterialPageRoute(builder: (context) =>RegisterPage()));
-                           },
+                        onPressed: (){
+                          if(phoneController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text("Phone number is still empty!")
+                              ),
+                            );
+                          } else if(phoneController.text.length != 10) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text("Invalid phone number!")
+                              ),
+                            );
+                          } else {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => OtpBody(
+                                  phone: phoneController.text,
+                                  codeDigits: dialCodeDigits,
+                                )));
+                          }
+                        },
                          color: Colors.black,
                          shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(50)

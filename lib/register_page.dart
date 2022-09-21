@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ehatid_driver_app/Screens/login.dart';
+import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
 class RegisterPage extends StatefulWidget {
  // final VoidCallback showLoginPage;
@@ -77,11 +78,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final formkey = GlobalKey<FormState>();
   bool _isHidden = true;
 
+  //final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFFCEA),
-      body: SafeArea(
+      body: Form(
+        key: formkey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -99,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _firstNameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -118,12 +123,19 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty){
+                        return 'Please enter your first name.';
+                        } else {
+                        return null;
+                      }
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _lastNameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -142,12 +154,19 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty){
+                        return 'Please enter your last name.';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -166,12 +185,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (email) =>
+                      email != null && !EmailValidator.validate(email)
+                       ? 'Enter a valid email'
+                          : null,
                   ),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _userNameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -190,12 +213,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty){
+                        return 'Please enter your username.';
+                      } else if(value.length < 4) {
+                        return "Choose a username with 4 or more characters.";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _passwordController,
                     obscureText: _isHidden,
                     decoration: InputDecoration(
@@ -224,12 +255,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty){
+                        return 'Please enter your password.';
+                      } else if (value.length < 8) {
+                        return "Length of password must be 8 or greater.";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _confirmpasswordController,
                     obscureText: _isHidden,
                     decoration: InputDecoration(
@@ -258,11 +297,42 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       filled: true,
                     ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty){
+                        return 'Please re-enter your password.';
+                      } else if (value.length < 8) {
+                        return "Length of password must be 8 or greater.";
+                      } else if(value != _passwordController.text) {
+                        return "Password mismatch.";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
+                  /**child: MaterialButton(
+                    onPressed: (){
+                      if(formkey.currentState!.validate()){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Success"),
+                        ));
+                    }
+                  },
+                    color: Color(0xFFFED90F),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    minWidth: double.infinity,
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
+                      ),
+                    ),
+                  ),**/
                   child: GestureDetector(
                     onTap: signUp,
                     child: Container(
@@ -319,4 +389,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 }
+
+
 
