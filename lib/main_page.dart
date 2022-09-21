@@ -1,4 +1,4 @@
-import 'package:ehatid_driver_app/Screens/login.dart';
+import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/homepage.dart';
 import 'package:ehatid_driver_app/intro_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';

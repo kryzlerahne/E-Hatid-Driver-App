@@ -1,5 +1,6 @@
-import 'package:ehatid_driver_app/Screens/login.dart';
+import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/main_page.dart';
+import 'package:ehatid_driver_app/register_page.dart';
 import 'package:flutter/material.dart';
 import 'intro_slider.dart';
 import 'package:firebase_core/firebase_core.dart';

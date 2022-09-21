@@ -260,7 +260,7 @@ import 'package:ehatid_driver_app/intro_slider.dart';
 import 'package:ehatid_driver_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'Welcome/components/body.dart';
+import 'Screens/Welcome/components/body.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
