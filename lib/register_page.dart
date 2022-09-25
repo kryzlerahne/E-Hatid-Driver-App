@@ -57,8 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future addUserDetails(String firstName, String lastName, String email, String username, String password) async {
     await FirebaseFirestore.instance.collection('drivers').add({
-      'first name': firstName,
-      'last name': lastName,
+      'first_name': firstName,
+      'last_name': lastName,
       'email' : email,
       'username' : username,
       'password' : password,
@@ -77,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final formkey = GlobalKey<FormState>();
   bool _isHidden = true;
+  bool _isHidden2 = true;
 
   //final formKey = GlobalKey<FormState>();
 
@@ -86,7 +87,6 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Color(0xFFFFFCEA),
       body: Form(
         key: formkey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -124,9 +124,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value == null || value.isEmpty){
+                      if(value!.isEmpty){
                         return 'Please enter your first name.';
-                        } else {
+                      } else {
                         return null;
                       }
                     },
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value == null || value.isEmpty){
+                      if(value!.isEmpty){
                         return 'Please enter your last name.';
                       } else {
                         return null;
@@ -186,9 +186,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (email) =>
-                      email != null && !EmailValidator.validate(email)
-                       ? 'Enter a valid email'
-                          : null,
+                    email != null && !EmailValidator.validate(email)
+                        ? 'Enter a valid email'
+                        : null,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -214,7 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value == null || value.isEmpty){
+                      if(value!.isEmpty){
                         return 'Please enter your username.';
                       } else if(value.length < 4) {
                         return "Choose a username with 4 or more characters.";
@@ -256,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value == null || value.isEmpty){
+                      if(value!.isEmpty){
                         return 'Please enter your password.';
                       } else if (value.length < 8) {
                         return "Length of password must be 8 or greater.";
@@ -270,7 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _confirmpasswordController,
-                    obscureText: _isHidden,
+                    obscureText: _isHidden2,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -282,9 +282,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       hintText: "Confirm Password",
                       suffixIcon: InkWell(
-                        onTap: _togglePasswordView,
+                        onTap: _toggleConfirmPasswordView,
                         child: Icon(
-                          _isHidden
+                          _isHidden2
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color: Color(0xffCCCCCC),
@@ -298,7 +298,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value == null || value.isEmpty){
+                      if(value!.isEmpty){
                         return 'Please re-enter your password.';
                       } else if (value.length < 8) {
                         return "Length of password must be 8 or greater.";
@@ -312,13 +312,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  /**child: MaterialButton(
+                  child: MaterialButton(
                     onPressed: (){
                       if(formkey.currentState!.validate()){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("Success"),
                         ));
-                    }
+                        signUp;
+                      }
                   },
                     color: Color(0xFFFED90F),
                     shape: RoundedRectangleBorder(
@@ -330,24 +331,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       "Sign up",
                       style: TextStyle(
                           color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
-                      ),
-                    ),
-                  ),**/
-                  child: GestureDetector(
-                    onTap: signUp,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFED90F),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Sign up",
-                          style: TextStyle(
-                              color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
-                          ),
-                        ),
                       ),
                     ),
                   ),
@@ -388,7 +371,12 @@ class _RegisterPageState extends State<RegisterPage> {
       _isHidden = !_isHidden;
     });
   }
-}
 
+  void _toggleConfirmPasswordView() {
+    setState(() {
+      _isHidden2 = !_isHidden2;
+    });
+  }
+}
 
 

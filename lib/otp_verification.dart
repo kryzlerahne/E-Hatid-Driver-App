@@ -20,6 +20,7 @@ class _OtpBodyState extends State<OtpBody> {
   final TextEditingController _pinOTPCodeController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
   String? verificationCode;
+  String pin = " ";
 
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -98,6 +99,21 @@ class _OtpBodyState extends State<OtpBody> {
     );
   }
 
+  Future<void> verifyOTP() async {
+    await FirebaseAuth.instance.signInWithCredential(
+      PhoneAuthProvider.credential(
+        verificationId: verificationCode!,
+        smsCode: pin,
+      ),
+    ).whenComplete(() {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const RegisterPage(),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -118,7 +134,7 @@ class _OtpBodyState extends State<OtpBody> {
                 children: <Widget>[
                   Positioned(
                     top: 0,
-                    child: Image.asset("assets/images/Vector 2.png",
+                    child: Image.asset("assets/images/Vector 4.png",
                       width: size.width,
                     ),
                   ),
@@ -132,7 +148,7 @@ class _OtpBodyState extends State<OtpBody> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 100),
-                    child: Image.asset("assets/images/ehatid logo.png",
+                    child: Image.asset("assets/images/driverLogo.png",
                       width: size.width * 0.2,
                     ),
                   ),
@@ -189,6 +205,11 @@ class _OtpBodyState extends State<OtpBody> {
                         showCursor: true,
                         cursor: cursor,
                         preFilledWidget: preFilledWidget,
+                        onChanged: (value) {
+                          setState(() {
+                            pin = value;
+                          });
+                        },
                         onSubmitted: (pin) async {
                           try{
                             await FirebaseAuth.instance
@@ -233,7 +254,7 @@ class _OtpBodyState extends State<OtpBody> {
                               verifyPhoneNumber();
                             },
                             child: Text(
-                              "Resend",
+                              "Resend SMS",
                               style: TextStyle(
                                 height: 1.171875,
                                 fontSize: 16.0,
@@ -268,12 +289,53 @@ class _OtpBodyState extends State<OtpBody> {
                       },
                     ),
                   ),
-                ],
-              ),
+                  const SizedBox(height: 20,),
+                  MaterialButton(
+                    onPressed: (){
+                      if(pin.length >= 6) {
+                        verifyOTP();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Invalid OTP!"),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    },
+                    color: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    minWidth: double.infinity,
+                    child: Text("Verify number",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Montserrat',
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Text("By continuing you’re indicating that you accept our Terms"
+                      " of Use and our Privacy Policy",
+                    style: TextStyle(
+                      height: 1.171875,
+                      fontSize: 14,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 126, 126, 126),
+                      letterSpacing: -0.48,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+              ],
             ),
-          ],
+          ),
+        ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }

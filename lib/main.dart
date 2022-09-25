@@ -1,14 +1,21 @@
+import 'package:ehatid_driver_app/homepage.dart';
 import 'package:ehatid_driver_app/login.dart';
-import 'package:ehatid_driver_app/main_page.dart';
-import 'package:ehatid_driver_app/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'intro_slider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+int initScreen = 0;
 
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var result = await preferences.getInt('initScreen');
+  if(result != null){
+    initScreen = result;
+  }
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -24,7 +31,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         backgroundColor: Color(0xFFFED90F),
       ),
-      home: IntroSliderPage(),
+      //home: IntroSliderPage(),
+      initialRoute: initScreen == 0 ? 'introslider' : 'homepage', // paltan ang login ng homepage
+      routes: {
+        'homepage' : (context) => HomePage(),
+        'introslider' : (context) => IntroSliderPage(),
+      },
     );
   }
 }

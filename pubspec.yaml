@@ -49,6 +49,7 @@ dependencies:
   google_fonts: ^3.0.1
   firebase_auth: ^3.9.0
   flutter_screenutil: ^5.5.4
+  shared_preferences: ^2.0.15
 
   #Firebase Database
   cloud_firestore: ^3.4.8
