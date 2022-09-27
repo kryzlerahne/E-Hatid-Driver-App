@@ -1,6 +1,7 @@
 import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/homepage.dart';
 import 'package:ehatid_driver_app/intro_slider.dart';
+import 'package:ehatid_driver_app/map_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MainPage extends StatelessWidget {
         body: StreamBuilder<User?>(stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomePage();
+          return MapSample();
         } else {
           return LoginScreen();
         }
