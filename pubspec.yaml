@@ -50,6 +50,11 @@ dependencies:
   firebase_auth: ^3.9.0
   flutter_screenutil: ^5.5.4
   shared_preferences: ^2.0.15
+  curved_navigation_bar: ^1.0.3
+
+  flutter_polyline_points: ^1.0.0
+  google_maps_flutter: ^2.2.0
+  flutter_svg: ^1.1.5
 
   #Firebase Database
   cloud_firestore: ^3.4.8
