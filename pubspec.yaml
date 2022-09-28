@@ -54,7 +54,9 @@ dependencies:
 
   flutter_polyline_points: ^1.0.0
   google_maps_flutter: ^2.2.0
+  location: ^4.4.0
   flutter_svg: ^1.1.5
+  url_launcher: ^6.1.5
   http: ^0.13.5
 
   #Firebase Database
