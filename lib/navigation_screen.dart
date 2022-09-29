@@ -9,6 +9,67 @@ import 'dart:math' show cos, sqrt, asin;
 
 import 'main.dart';
 
+class DriverMap extends StatefulWidget {
+  @override
+  State<DriverMap> createState() => _DriverMapState();
+}
+
+class _DriverMapState extends State<DriverMap> {
+  TextEditingController latController = TextEditingController();
+  TextEditingController lngController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter uber'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            'Enter your destination',
+            style: TextStyle(fontSize: 40),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          TextField(
+            controller: latController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'latitude',
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            controller: lngController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'longitude',
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: double.infinity,
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NavigationScreen(
+                          double.parse(latController.text),
+                          double.parse(lngController.text))));
+                },
+                child: Text('Get Directions')),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
 class NavigationScreen extends StatefulWidget {
   final double lat;
   final double lng;
@@ -25,7 +86,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Location location = Location();
   Marker? sourcePosition, destinationPosition;
   loc.LocationData? _currentPosition;
-  LatLng curLocation = LatLng(23.0525, 72.5667);
+  LatLng curLocation = LatLng(13.7731, 121.0484);
   StreamSubscription<loc.LocationData>? locationSubscription;
 
   @override

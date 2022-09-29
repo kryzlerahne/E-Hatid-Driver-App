@@ -1,3 +1,4 @@
+import 'package:ehatid_driver_app/accept_decline.dart';
 import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/homepage.dart';
 import 'package:ehatid_driver_app/intro_slider.dart';
@@ -14,7 +15,7 @@ class MainPage extends StatelessWidget {
         body: StreamBuilder<User?>(stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return MapSample();
+          return AcceptDecline();
         } else {
           return LoginScreen();
         }

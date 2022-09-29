@@ -51,6 +51,7 @@ dependencies:
   flutter_screenutil: ^5.5.4
   shared_preferences: ^2.0.15
   curved_navigation_bar: ^1.0.3
+  sliding_up_panel: ^2.0.0+1
 
   flutter_polyline_points: ^1.0.0
   google_maps_flutter: ^2.2.0
@@ -68,9 +69,10 @@ dev_dependencies:
   flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
+  image_path_android: "assets/images/appIcon.png"
+  image_path_ios: "assets/images/appIcon.png"
   android: true
   ios: true
-  image_path: "assets/images/appIcon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

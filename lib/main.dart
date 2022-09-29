@@ -1,10 +1,10 @@
-/**import 'package:ehatid_driver_app/homepage.dart';
-import 'package:ehatid_driver_app/login.dart';
-import 'package:ehatid_driver_app/order_traking_page.dart';
+import 'package:ehatid_driver_app/accept_decline.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'intro_slider.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'navigation_screen.dart';
 
 int initScreen = 0;
 
@@ -35,15 +35,15 @@ class MyApp extends StatelessWidget {
       //home: IntroSliderPage(),
       initialRoute: initScreen == 0 ? 'introslider' : 'homepage', // paltan ang login ng homepage
       routes: {
-        'homepage' : (context) => HomePage(),
+        'homepage' : (context) => AcceptDecline(),
         'introslider' : (context) => IntroSliderPage(),
       },
     );
   }
 }
 
-**/
 
+/**
 import 'package:ehatid_driver_app/navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ehatid_driver_app/navigation_screen.dart';
@@ -114,3 +114,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+ **/
