@@ -16,6 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Color(0xFFFED90F),
         title: Text('Profile',
             style: TextStyle(

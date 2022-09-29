@@ -1,8 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
-import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
-import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
-import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_driver_app/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +23,7 @@ class _WalletState extends State<Wallet> {
     try {
       await _firebaseAuth.signOut();
       Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (_) => SignIn(),
+        builder: (_) => LoginScreen(),
       ),
       );
     } catch (e) {
@@ -44,7 +41,9 @@ class _WalletState extends State<Wallet> {
       backgroundColor: Color(0xFFFFFCEA),
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Wallet"),
+        title: Text("Wallet",
+            style:TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.bold)),
+        elevation: 0,
         backgroundColor: Color(0xFFFED90F),
       ),
       drawer: Drawer(
@@ -162,15 +161,7 @@ class _WalletState extends State<Wallet> {
                     Positioned(
                       top: 0,
                       child: Image.asset(
-                        "assets/images/Vector 2.png",
-                        width: size.width,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      child: Image.asset(
-                        "assets/images/vector_bottom.png",
+                        "assets/images/Vector 4.png",
                         width: size.width,
                       ),
                     ),
@@ -179,10 +170,14 @@ class _WalletState extends State<Wallet> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                  margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Image.asset(
+                        "assets/images/Investments.png",
+                      ),
+                      SizedBox(height: 20,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
