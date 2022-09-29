@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'intro_slider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'navigation_bar.dart';
 import 'navigation_screen.dart';
 
 int initScreen = 0;
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       //home: IntroSliderPage(),
       initialRoute: initScreen == 0 ? 'introslider' : 'homepage', // paltan ang login ng homepage
       routes: {
-        'homepage' : (context) => AcceptDecline(),
+        'homepage' : (context) => Navigation(),
         'introslider' : (context) => IntroSliderPage(),
       },
     );

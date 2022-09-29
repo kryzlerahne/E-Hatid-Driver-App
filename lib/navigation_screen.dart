@@ -21,14 +21,17 @@ class _DriverMapState extends State<DriverMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter uber'),
+        title: Text('Map Driver',
+            style:TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Color(0xFFFED90F),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Enter your destination',
-            style: TextStyle(fontSize: 40),
+            'Fetching destination...',
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 40, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 30,
@@ -62,9 +65,17 @@ class _DriverMapState extends State<DriverMap> {
                           double.parse(latController.text),
                           double.parse(lngController.text))));
                 },
-                child: Text('Get Directions')),
-          ),
-        ]),
+                child: Text('Get Directions'),
+              style: ElevatedButton.styleFrom(
+                  primary: Color(0xFFFED90F),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold)),
+            ),
+            ),
+        ],
+        ),
       ),
     );
   }
