@@ -1,17 +1,14 @@
 import 'dart:async';
-import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
+import 'package:ehatid_driver_app/accept_decline.dart';
+import 'package:ehatid_driver_app/login.dart';
+import 'package:ehatid_driver_app/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
-import 'package:location/location.dart' as loc;
-import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:math' show cos, sqrt, asin;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,36 +21,26 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final panelController = PanelController();
+  final Completer<GoogleMapController?> _controller = Completer();
 
   bool _activeButton = true;
 
-  final Completer<GoogleMapController?> _controller = Completer();
-  Map<PolylineId, Polyline> polylines = {};
-  PolylinePoints polylinePoints = PolylinePoints();
-  Location location = Location();
-  Marker? sourcePosition, destinationPosition;
-  loc.LocationData? _currentPosition;
-  LatLng curLocation = LatLng(23.0525, 72.5667);
-  StreamSubscription<loc.LocationData>? locationSubscription;
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(13.7752, 121.0453),
+    zoom: 18.4746,
+  );
+
+
+  static final CameraPosition _kLake = CameraPosition(
+    //bearing: 192.8334901395799,
+      target: LatLng(13.7731, 121.0484),
+      //tilt: 59.440717697143555,
+      zoom: 107.15);
   
-  static const double OnlineGo = 130;
+  static const double OnlineGo = 150;
   double GoOnlineHeight = OnlineGo;
 
   int counter = 0;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getNavigation();
-    addMarker();
-  }
-
-  @override
-  void dispose() {
-    locationSubscription?.cancel();
-    super.dispose();
-  }
 
   Future<void> _signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -61,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     try {
       await _firebaseAuth.signOut();
       Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (_) => SignIn(),
+        builder: (_) => LoginScreen(),
       ),
       );
     } catch (e) {
@@ -248,47 +235,12 @@ class _HomePageState extends State<HomePage> {
 
                 GoOnlineHeight = position * panelMaxScrollExtent + OnlineGo;
               }),
-              body: sourcePosition == null
-                  ? Center(child: CircularProgressIndicator())
-                  : Stack(
-                children: [
-                  GoogleMap(
-                    zoomControlsEnabled: false,
-                    polylines: Set<Polyline>.of(polylines.values),
-                    initialCameraPosition: CameraPosition(
-                      target: curLocation,
-                      zoom: 16,
-                    ),
-                    markers: {sourcePosition!, destinationPosition!},
-                    onTap: (latLng) {
-                      print(latLng);
-                    },
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                  ),
-                  Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.blue),
-                        child: Center(
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.navigation_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              await launchUrl(Uri.parse(
-                                  'google.navigation:q=(13.793034, 121.0710068)&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
-                            },
-                          ),
-                        ),
-                      ))
-                ],
+              body: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
               ),
               panelBuilder: (controller) => PanelWidget(
                 controller: controller,
@@ -324,149 +276,235 @@ class _HomePageState extends State<HomePage> {
     ),
     onPressed: (){
       toggle_activeButton();
-      if (counter == 1){
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("List of Nearby Passengers",
-              style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -1, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            content: Text(
-              "---Passengers---",
-              style: TextStyle(fontFamily: 'Montserrat', fontSize: 12, letterSpacing: 2, fontStyle: FontStyle.italic),
-              textAlign: TextAlign.center,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("CANCEL"),
-              ),
-            ],
+      showDialog(
+        context: context,
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(19)
           ),
-        );
-      };
+          child: Container(
+            height: MediaQuery.of(context).size.height / 2,
+            child: Column(
+              children: [
+                Container(
+                  height: 53.0,
+                  decoration: BoxDecoration(
+                    color: Color(0XFF0CBB8A),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  child: SizedBox.expand(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text("Passengers Near You",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          fontSize: 20,
+                          letterSpacing: -0.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Column(
+                          children: [
+                            new Text(
+                              "Karlo Pangilinan",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF272727),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            new Text(
+                              "112m away",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF0CBC8B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (_) => AcceptDecline()
+                          ),
+                          );
+                        },
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          size: 40,
+                          color: Color(0xFF777777),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 25,
+                          color: Color(0xFF777777),
+                        ),
+                      ),
+                      ListTile(
+                        title: Column(
+                          children: [
+                            new Text(
+                              "Danna Aguda",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF272727),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            new Text(
+                              "157m away",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF0CBC8B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: (){},
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          size: 40,
+                          color: Color(0xFF777777),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 25,
+                          color: Color(0xFF777777),
+                        ),
+                      ),
+                      ListTile(
+                        title: Column(
+                          children: [
+                            new Text(
+                              "Mar Mandigma",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF272727),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            new Text(
+                              "201m away",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF0CBC8B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: (){},
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          size: 40,
+                          color: Color(0xFF777777),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 25,
+                          color: Color(0xFF777777),
+                        ),
+                      ),
+                      ListTile(
+                        title: Column(
+                          children: [
+                            new Text(
+                              "Jean Falcatan",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF272727),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            new Text(
+                              "292m away",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF0CBC8B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: (){},
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          size: 40,
+                          color: Color(0xFF777777),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 25,
+                          color: Color(0xFF777777),
+                        ),
+                      ),
+                      ListTile(
+                        title: Column(
+                          children: [
+                            new Text(
+                              "Kevin Ortega",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF272727),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            new Text(
+                              "305m away",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Color(0xFF0CBC8B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: (){},
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          size: 40,
+                          color: Color(0xFF777777),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 25,
+                          color: Color(0xFF777777),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     },
     icon: Icon(Icons.power_settings_new_rounded, size: 17),
   );
-
-  getNavigation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    final GoogleMapController? controller = await _controller.future;
-    location.changeSettings(accuracy: loc.LocationAccuracy.high);
-    _serviceEnabled = await location.serviceEnabled();
-
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-    if (_permissionGranted == loc.PermissionStatus.granted) {
-      _currentPosition = await location.getLocation();
-      curLocation =
-          LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
-      locationSubscription =
-          location.onLocationChanged.listen((LocationData currentLocation) {
-            controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-              target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
-              zoom: 16,
-            )));
-            if (mounted) {
-              controller
-                  ?.showMarkerInfoWindow(MarkerId(sourcePosition!.markerId.value));
-              setState(() {
-                curLocation =
-                    LatLng(currentLocation.latitude!, currentLocation.longitude!);
-                sourcePosition = Marker(
-                  markerId: MarkerId(currentLocation.toString()),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueBlue),
-                  position:
-                  LatLng(currentLocation.latitude!, currentLocation.longitude!),
-                  infoWindow: InfoWindow(
-                      title: '${double.parse(
-                          (getDistance(LatLng(13.793034, 121.0710068))
-                              .toStringAsFixed(2)))} km'
-                  ),
-                  onTap: () {
-                    print('market tapped');
-                  },
-                );
-              });
-              getDirections(LatLng(13.793034, 121.0710068));
-            }
-          });
-    }
-  }
-
-  getDirections(LatLng dst) async {
-    List<LatLng> polylineCoordinates = [];
-    List<dynamic> points = [];
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        'AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io',
-        PointLatLng(curLocation.latitude, curLocation.longitude),
-        PointLatLng(dst.latitude, dst.longitude),
-        travelMode: TravelMode.driving);
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-        points.add({'lat': point.latitude, 'lng': point.longitude});
-      });
-    } else {
-      print(result.errorMessage);
-    }
-    addPolyLine(polylineCoordinates);
-  }
-
-  addPolyLine(List<LatLng>polylineCoordinates) {
-    PolylineId id = PolylineId('poly');
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.blue,
-      points: polylineCoordinates,
-      width: 5,
-    );
-    polylines[id] = polyline;
-    setState(() {});
-  }
-
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
-  double getDistance(LatLng destposition) {
-    return calculateDistance(curLocation.latitude, curLocation.longitude,
-        destposition.latitude, destposition.longitude);
-  }
-  addMarker() {
-    setState(() {
-      sourcePosition = Marker(
-        markerId: MarkerId('source'),
-        position: curLocation,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-      );
-      destinationPosition = Marker(
-        markerId: MarkerId('destination'),
-        position: LatLng(13.793034, 121.0710068),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
-      );
-    });
-  }
 }
 
 class PanelWidget extends StatelessWidget {

@@ -37,7 +37,7 @@ class _HistoryState extends State<History> {
                       bottom: 0,
                       left: 0,
                       child: Image.asset(
-                        "assets/images/vector_bottom.png",
+                        "assets/images/Vector 4.png",
                         width: size.width,
                       ),
                     ),
@@ -95,71 +95,73 @@ class ElevatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        elevation: 10, // the size of the shadow
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: SizedBox(
-          width: 550,
-          height: 80,
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SizedBox(width: 16),
-                    Icon(
-                      Icons.access_time,
-                      size: 30,
-                      color: Color(0xFFFFBA4C),
-                    ),
-                    SizedBox(width: 12),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          'Karlo Pangilinan',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'September 30, 2022 3:00PM',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Text(
-                      '₱ +50',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFF0CBC8B),
-                        fontSize: 18,
-                        letterSpacing: -0.5,
-                        fontWeight: FontWeight.bold,
+    return Center(
+      child: Container(
+        child: Card(
+          elevation: 10, // the size of the shadow
+          shadowColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: SizedBox(
+            width: 300,
+            height: 80,
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 16),
+                      Icon(
+                        Icons.access_time,
+                        size: 30,
+                        color: Color(0xFFFFBA4C),
                       ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    )
-                  ],
-                ),
-              ],
+                      SizedBox(width: 12),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'Karlo Pangilinan',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'September 30, 2022 3:00PM',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        '₱ +50',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color(0xFF0CBC8B),
+                          fontSize: 18,
+                          letterSpacing: -0.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -181,7 +183,7 @@ class Booking1 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -213,7 +215,7 @@ class Booking1 extends StatelessWidget {
                               'September 30, 2022 2:24PM',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],
@@ -259,7 +261,7 @@ class Booking2 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -291,7 +293,7 @@ class Booking2 extends StatelessWidget {
                               'September 30, 2022 1:45PM',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],
@@ -337,7 +339,7 @@ class Booking3 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -369,7 +371,7 @@ class Booking3 extends StatelessWidget {
                               'September 30, 2022 11:32AM',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],
@@ -415,7 +417,7 @@ class Booking4 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -447,7 +449,7 @@ class Booking4 extends StatelessWidget {
                               'September 29, 2022 5:00PM',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],
@@ -493,7 +495,7 @@ class Booking5 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -525,7 +527,7 @@ class Booking5 extends StatelessWidget {
                               'September 29, 2022 3:30PM',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],
@@ -571,7 +573,7 @@ class Booking6 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 550,
+          width: 300,
           height: 80,
           child: Container(
             child: Column(
@@ -603,7 +605,7 @@ class Booking6 extends StatelessWidget {
                               'September 29, 2022 12:00NN',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 10,
                               ),
                             ),
                           ],

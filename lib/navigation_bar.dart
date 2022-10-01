@@ -2,7 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:ehatid_driver_app/Account/account.dart';
 import 'package:ehatid_driver_app/accept_decline.dart';
 import 'package:ehatid_driver_app/history.dart';
-import 'package:ehatid_driver_app/homepage.dart';
+import 'package:ehatid_driver_app/homescreen.dart';
 import 'package:ehatid_driver_app/wallet.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class _NavigationState extends State<Navigation> {
 
   var myindex = 0;
 
-  var PagesAll = [AcceptDecline(), Wallet(), History(), HomePage(),ProfileScreen()];
+  var PagesAll = [HomePage(), Wallet(), History(), HomePage(),ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class _NavigationState extends State<Navigation> {
             Icon((myindex == 4) ? Icons.account_circle_outlined : Icons.account_circle_sharp , size: 30,),
           ],
           height: 60,
-          backgroundColor: Color(0xFFEBE5D8),
-          color: Color(0xFFFED90F),
+          backgroundColor: Color(0xFFFED90F),
+          color: Color(0xFFF3E8AE),
           animationDuration: Duration(milliseconds: 300),
           onTap: (index){
             setState(() {
