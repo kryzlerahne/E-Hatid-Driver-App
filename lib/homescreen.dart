@@ -4,6 +4,7 @@ import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       //tilt: 59.440717697143555,
       zoom: 107.15);
   
-  static const double OnlineGo = 150;
+  static double OnlineGo = Adaptive.h(21);
   double GoOnlineHeight = OnlineGo;
 
   int counter = 0;
@@ -251,9 +252,9 @@ class _HomePageState extends State<HomePage> {
             Positioned(
               bottom: GoOnlineHeight,
               child: Container(
-                height: 30,
-                width: 120,
-                child: GoOnline(context),
+                  width: Adaptive.w(40),    // This will take 20% of the screen's width
+                  height: 5.h,
+                  child: GoOnline(context),
               ),
             ),
           ],
@@ -533,11 +534,11 @@ class PanelWidget extends StatelessWidget {
         children: <Widget>[
           Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
             child: SizedBox(
-              width: 320,
-              height: 30,
+              width: Adaptive.w(90),
+              height: 5.h,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -575,8 +576,8 @@ class PanelWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: SizedBox(
-                  width: 180,
-                  height: 60,
+                  width: Adaptive.w(48),
+                  height: 10.h,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -625,8 +626,8 @@ class PanelWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: SizedBox(
-                  width: 130,
-                  height: 60,
+                  width: Adaptive.w(40),
+                  height: 10.h,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

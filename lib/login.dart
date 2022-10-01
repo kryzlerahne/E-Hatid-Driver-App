@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Positioned(
                   top: 0,
                   child: Image.asset("assets/images/Vector 4.png",
-                    width: size.width,
+                    width: size.width * 0.2,
                   ),
                 ),
               ],

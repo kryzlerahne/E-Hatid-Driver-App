@@ -162,36 +162,40 @@ class PanelWidget extends StatelessWidget {
           ],
         ),
         SizedBox(height: 25,),
-        Row(
-          children: [
-            Image.asset("assets/images/line.png"),
-            SizedBox(width: 10,),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text("Pickup Point:",
-                  style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600,color: Color(0XFF9E9E9E)),),
-                Text("7-Eleven, Bolbok, Batangas City",
-                  style: TextStyle(fontFamily: 'Montserrat',),), //PLACE YOUR LOCATION HERE
-                SizedBox(height: 10,),
-                Center(
-                  child: Container(
-                    width: 280,
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: Color(0XFFCCC9C1),
-                      borderRadius: BorderRadius.circular(32),
+        FittedBox(
+          fit: BoxFit.fill,
+          child: Row(
+            children: [
+              SizedBox(width: 30,),
+              Image.asset("assets/images/line.png"),
+              SizedBox(width: 30,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("Pickup Point:",
+                    style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600,color: Color(0XFF9E9E9E)),),
+                  Text("7-Eleven, Bolbok, Batangas City",
+                    style: TextStyle(fontFamily: 'Montserrat',),), //PLACE YOUR LOCATION HERE
+                  SizedBox(height: 10,),
+                  Center(
+                    child: Container(
+                      width: 280,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Color(0XFFCCC9C1),
+                        borderRadius: BorderRadius.circular(32),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                Text("Destination:",
-                  style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, color: Color(0XFFFFBA4C)),),
-                Text("Sta. Rita de Cascia Parish Church",
-                  style: TextStyle(fontFamily: 'Montserrat',),),
-              ],
-            ),
-          ],
+                  SizedBox(height: 10,),
+                  Text("Destination:",
+                    style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, color: Color(0XFFFFBA4C)),),
+                  Text("Sta. Rita de Cascia Parish Church",
+                    style: TextStyle(fontFamily: 'Montserrat',),),
+                ],
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 20,),
         Row(
@@ -217,41 +221,46 @@ class PanelWidget extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 10, width: 20,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            MaterialButton(
-              onPressed: (){
-                showDialog(
-                  context: context,
-                  builder: (context) => BookingSuccessDialog(),
-                );
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)
+        SizedBox(height: 20, width: 20,),
+        FittedBox(
+          fit: BoxFit.fill,
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(width: 30,),
+              MaterialButton(
+                onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (context) => BookingSuccessDialog(),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)
+                ),
+                minWidth: 150,
+                child: Text("Continue", style: TextStyle( color: Colors.white,
+                  fontSize: 15,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w600,),),
+                color: Color(0XFF0CBC8B),
               ),
-              minWidth: 150,
-              child: Text("Continue", style: TextStyle( color: Colors.white,
-                fontSize: 15,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600,),),
-              color: Color(0XFF0CBC8B),
-            ),
-            MaterialButton(
-              onPressed: (){
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)
+              SizedBox(width: 10,),
+              MaterialButton(
+                onPressed: (){
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)
+                ),
+                minWidth: 150,
+                child: Text("Cancel", style: TextStyle( color: Colors.white,
+                  fontSize: 15,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w600,),),
+                color: Color(0XFFC5331E),
               ),
-              minWidth: 150,
-              child: Text("Cancel", style: TextStyle( color: Colors.white,
-                fontSize: 15,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600,),),
-              color: Color(0XFFC5331E),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     ),
