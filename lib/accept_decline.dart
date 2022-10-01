@@ -291,7 +291,7 @@ class BookingSuccessDialog extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 70.0,
+              height: MediaQuery.of(context).size.height * 0.1,
               decoration: BoxDecoration(
                 color: Color(0XFF0CBB8A),
                 borderRadius: BorderRadius.only(
@@ -300,63 +300,63 @@ class BookingSuccessDialog extends StatelessWidget {
                 ),
               ),
               child: SizedBox.expand(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Text("Booking Successful!",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontSize: 20,
-                          letterSpacing: -0.5,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text("Passenger ID: 554321",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Form(
-              child: Container(
-                color: Colors.white,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 50,),
-                    Text("PHP",
+                  children: [
+                    Text("Booking Successful!",
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 20,
                         letterSpacing: -0.5,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Flexible(
-                      child: SizedBox(
-                        width: 120,
-                        child: TextField(
-                          decoration: InputDecoration(hintText: "Fare Price",
-                            hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                            //isCollapsed: true,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 10),),
-                        ),
+                    Text("Passenger ID: 554321",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Colors.white,
+                        fontSize: 13,
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Form(
+                child: Container(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("PHP",
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.black,
+                          fontSize: 20,
+                          letterSpacing: -0.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Flexible(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.32,
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(hintText: "Fare Price",
+                              hintStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.black,
+                                fontSize: 18,
+                              ),
+                              //isCollapsed: true,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 10),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -416,32 +416,34 @@ class BookingSuccessDialog extends StatelessWidget {
             SizedBox(height: 15,),
             Center(
               child: Text(
-                "Don't worry! Additional charges \n may apply if cancellation of booking \n is done by the passenger.",
+                "Don't worry! Additional charges may apply\n if cancellation of booking is done by\n the passenger.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   color: Colors.black,
-                  fontSize: 14,
+                  fontSize: 11,
                 ),
               ),
             ),
-            SizedBox(height: 20,),
-            MaterialButton(
-              onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (_) => DriverMap(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (_) => DriverMap(),
+                  ),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)
                 ),
-                );
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)
+                minWidth: 150,
+                child: Text("Get Directions", style: TextStyle( color: Colors.white,
+                  fontSize: 15,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w600,),),
+                color: Color(0XFF0CBB8A),
               ),
-              minWidth: 150,
-              child: Text("Get Directions", style: TextStyle( color: Colors.white,
-                fontSize: 15,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600,),),
-              color: Color(0XFF0CBB8A),
             ),
           ],
         ),
