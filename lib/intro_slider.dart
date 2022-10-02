@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'signup.dart';
 
@@ -67,7 +68,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                   child: Image.asset(
                     currentSlide.pathImage.toString(),
                     matchTextDirection: true,
-                    height: 250,
+                    width: Adaptive.h(50),
                   ),
                 ),
                 Container(
@@ -81,14 +82,16 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                   padding: EdgeInsets.symmetric(
                     horizontal: 3,
                   ),
-                  child: Text(
-                    currentSlide.description.toString(),
-                    style: TextStyle(
-                        fontFamily: 'Montserrat', fontSize: 15, color: Color(0xff646262), letterSpacing: -0.5, fontWeight: FontWeight.w500
+                  child: FittedBox(
+                    child: Text(
+                      currentSlide.description.toString(),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat', fontSize: 15, color: Color(0xff646262), letterSpacing: -0.5, fontWeight: FontWeight.w500
+                      ),
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   margin: EdgeInsets.only(
                     top: 15,

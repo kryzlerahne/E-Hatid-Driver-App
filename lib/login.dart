@@ -6,6 +6,7 @@ import 'package:ehatid_driver_app/signup.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Screens/Welcome/components/body.dart';
 
@@ -68,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Positioned(
                   top: 0,
                   child: Image.asset("assets/images/Vector 4.png",
-                    width: size.width * 0.2,
+                    width: size.width,
                   ),
                 ),
               ],
@@ -81,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset("assets/images/illus14.png",
-                        width: 250
+                        width: Adaptive.h(50),
+                        height: Adaptive.h(30),
                     ),
                     Text(
                       "Sign in to your account",
@@ -92,70 +94,70 @@ class _LoginScreenState extends State<LoginScreen> {
                       "Welcome Back! Ready for your next ride?", textAlign: TextAlign.center,
                       style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: Color(0xff272727), letterSpacing: -0.5, fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 30),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: TextField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFFED90F),),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            hintText: "Email",
-                            prefixIcon: Icon(Icons.person, color: Color(0xffCCCCCC)),
-                            hintStyle: TextStyle( color: Color(0xbc000000),
-                              fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,),
-                            fillColor: Colors.white,
-                            filled: true,
+                    SizedBox(height: Adaptive.h(3)),
+                    SizedBox(
+                      width: Adaptive.w(85),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(15),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFED90F),),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          hintText: "Email",
+                          prefixIcon: Icon(Icons.person, color: Color(0xffCCCCCC)),
+                          hintStyle: TextStyle( color: Color(0xbc000000),
+                            fontSize: 15,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,),
+                          fillColor: Colors.white,
+                          filled: true,
                         ),
                       ),
-                    SizedBox(height:10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                    ),
+                    SizedBox(height: Adaptive.h(1.5)),
+                    SizedBox(
+                      width: Adaptive.w(85),
                       child: TextFormField(
-                            controller: _passwordController,
-                            obscureText: _isHidden,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFFFED90F),),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: "Password",
-                              prefixIcon: Icon(Icons.lock, color: Color(0xffCCCCCC)),
-                              suffixIcon: InkWell(
-                                onTap: _togglePasswordView,
-                                child: Icon(
-                                  _isHidden
-                                    ? Icons.visibility
-                                  : Icons.visibility_off,
-                                color: Color(0xffCCCCCC),
-                              ),
-                            ),
-                              hintStyle: TextStyle( color: Color(0xbc000000),
-                              fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            validator: (email) =>
-                            email != null && !EmailValidator.validate(email)
-                                ? 'Enter a valid email'
-                                : null,
+                        controller: _passwordController,
+                        obscureText: _isHidden,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(15),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFED90F),),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          hintText: "Password",
+                          prefixIcon: Icon(Icons.lock, color: Color(0xffCCCCCC)),
+                          suffixIcon: InkWell(
+                            onTap: _togglePasswordView,
+                            child: Icon(
+                              _isHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Color(0xffCCCCCC),
+                            ),
+                          ),
+                          hintStyle: TextStyle( color: Color(0xbc000000),
+                            fontSize: 15,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,),
+                          fillColor: Colors.white,
+                          filled: true,
                         ),
+                        validator: (email) =>
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid email'
+                            : null,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                       child: Row(
@@ -178,44 +180,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      /**child: GestureDetector(
-                        onTap: signIn,
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFED90F),
-                              borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Sign in",
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),**/
-                      child: MaterialButton(
-                        onPressed: signIn,
-                        color: Color(0xFFFED90F),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        minWidth: double.infinity,
-                        child: Text("Sign in",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                          ),
+                    MaterialButton(
+                      onPressed: signIn,
+                      color: Color(0xFFFED90F),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      minWidth: Adaptive.w(85),
+                      child: Text("Sign in",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                    SizedBox(height: 100),
+                    SizedBox(height: Adaptive.h(2)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
