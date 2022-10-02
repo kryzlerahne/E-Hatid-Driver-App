@@ -309,7 +309,7 @@ class BookingSuccessDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(19)
       ),
       child: Container(
-        height: MediaQuery.of(context).size.height / 2,
+        height: Adaptive.h(50),
         child: Column(
           children: [
             Container(
@@ -347,6 +347,8 @@ class BookingSuccessDialog extends StatelessWidget {
             ),
             Form(
               child: Container(
+                width: Adaptive.w(50),
+                height: Adaptive.h(9),
                 color: Colors.white,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -435,17 +437,20 @@ class BookingSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: Adaptive.h(2),),
             Center(
-              child: Text(
-                "Don't worry! Additional charges may apply\n if cancellation of booking is done by\n the passenger.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: Colors.black,
-                  fontSize: 11,
+              child: Container(
+                height: Adaptive.h(8),
+                child: Text(
+                  "Don't worry! Additional charges may apply\n if cancellation of booking is done by\n the passenger.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Colors.black,
+                    fontSize: 11,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: Adaptive.h(2),),
+           // SizedBox(height: Adaptive.h(3),),
             MaterialButton(
               onPressed: () {
                 Navigator.pushReplacement(context, MaterialPageRoute(

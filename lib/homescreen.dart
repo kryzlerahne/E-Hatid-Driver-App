@@ -79,7 +79,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color(0xFFFFFCEA),
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Home"),
+          title: Text("Home",
+              style:TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.bold)),
           backgroundColor: Color(0xFFFED90F),
         ),
         drawer: Drawer(
