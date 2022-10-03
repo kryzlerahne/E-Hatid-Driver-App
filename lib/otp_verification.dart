@@ -150,7 +150,7 @@ class _OtpBodyState extends State<OtpBody> {
                   Padding(
                     padding: EdgeInsets.only(top: 100),
                     child: Image.asset("assets/images/driverLogo.png",
-                      width: size.width * 0.2,
+                      width: 20.w,
                     ),
                   ),
                   Padding(
@@ -161,7 +161,7 @@ class _OtpBodyState extends State<OtpBody> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         height: .15.h,
-                        fontSize: 23.0.sp,
+                        fontSize: 22.0.sp,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
                         color: Color.fromARGB(255, 32, 32, 32),
@@ -175,7 +175,7 @@ class _OtpBodyState extends State<OtpBody> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       height: .15.h,
-                      fontSize: 17.sp,
+                      fontSize: 16.5.sp,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 126, 126, 126),
