@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:ehatid_driver_app/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Wallet extends StatefulWidget {
@@ -38,7 +39,7 @@ class _WalletState extends State<Wallet> {
         .size;
     //total height and width
     return Scaffold(
-      backgroundColor: Color(0xFFFFFCEA),
+      backgroundColor: Color(0xFFFED90F),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Wallet",
@@ -170,23 +171,25 @@ class _WalletState extends State<Wallet> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  margin: const EdgeInsets.fromLTRB(10, 26, 10, 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: Adaptive.h(0.03),),
                       Image.asset(
                         "assets/images/Investments.png",
+                        width: Adaptive.w(50),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: Adaptive.h(2),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           EarningCard(),
-                          SizedBox(width: 10),
+                          SizedBox(width: Adaptive.w(5)),
                           PointsCard(),
                         ],
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: Adaptive.h(2)),
                       Text(
                         "RECENT TRANSACTIONS",
                         textAlign: TextAlign.left,
@@ -197,13 +200,13 @@ class _WalletState extends State<Wallet> {
                             fontWeight: FontWeight.w500
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: Adaptive.h(1)),
                       TransactCard(),
-                      SizedBox(height: 10),
+                      SizedBox(height:  Adaptive.h(1)),
                       TransactCard2(),
-                      SizedBox(height: 10),
+                      SizedBox(height:  Adaptive.h(1)),
                       TransactCard3(),
-                      SizedBox(height: 10),
+                      SizedBox(height: Adaptive.h(1)),
                       TransactCard4(),
                     ],
                   ),
@@ -224,11 +227,11 @@ class EarningCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        elevation: 16, // the size of the shadow
+        elevation: 10, // the size of the shadow
         shadowColor: Colors.black,
         child: SizedBox(
-          width: 150,
-          height: 100,
+          width: Adaptive.w(35),
+          height: Adaptive.h(12),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -242,7 +245,7 @@ class EarningCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: Adaptive.h(0.5)),
                 Text('Earning\nBalance',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
@@ -270,8 +273,8 @@ class PointsCard extends StatelessWidget {
         elevation: 16, // the size of the shadow
         shadowColor: Colors.black,
         child: SizedBox(
-          width: 150,
-          height: 100,
+          width: Adaptive.w(35),
+          height: Adaptive.h(12),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -283,7 +286,7 @@ class PointsCard extends StatelessWidget {
                       Icons.star,
                       color: Color(0xFFFFBA4C),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: Adaptive.w(0.5)),
                     Text('100',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
@@ -295,7 +298,7 @@ class PointsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: Adaptive.h(0.5)),
                 Text('Available\n   Points',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
@@ -326,21 +329,21 @@ class TransactCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 300,
-          height: 60,
+          width: Adaptive.w(80),
+          height: Adaptive.h(8),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Icon(
                       Icons.monetization_on,
                       size: 30,
                       color: Color(0xFFFFBA4C),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Column(
                       children: <Widget>[
                         Text('Booking Completed!',
@@ -351,7 +354,7 @@ class TransactCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: Adaptive.h(0.5)),
                         Row(
                           children: <Widget>[
                             Text('Karlo Pangilinan',
@@ -382,7 +385,7 @@ class TransactCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 15,)
+                    SizedBox(width: Adaptive.w(4)),
                   ],
                 ),
               ],
@@ -407,21 +410,21 @@ class TransactCard2 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 300,
-          height: 60,
+          width: Adaptive.w(80),
+          height: Adaptive.h(8),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Icon(
                       Icons.monetization_on,
                       size: 30,
                       color: Color(0xFFFFBA4C),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Column(
                       children: <Widget>[
                         Text('Booking Completed!',
@@ -432,7 +435,7 @@ class TransactCard2 extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: Adaptive.h(0.5)),
                         Row(
                           children: <Widget>[
                             Text('Ric Tingchuy',
@@ -463,7 +466,7 @@ class TransactCard2 extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 15,)
+                    SizedBox(width: Adaptive.w(4)),
                   ],
                 ),
               ],
@@ -488,21 +491,21 @@ class TransactCard3 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 300,
-          height: 60,
+          width: Adaptive.w(80),
+          height: Adaptive.h(8),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Icon(
                       Icons.cancel_rounded,
                       size: 30,
                       color: Colors.red,
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Column(
                       children: <Widget>[
                         Text('Booking Cancelled!',
@@ -513,7 +516,7 @@ class TransactCard3 extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: Adaptive.h(0.5)),
                         Row(
                           children: <Widget>[
                             Text('Marc Irwin',
@@ -552,7 +555,7 @@ class TransactCard3 extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(width: 15,)
+                    SizedBox(width: Adaptive.w(4)),
                   ],
                 ),
               ],
@@ -577,21 +580,21 @@ class TransactCard4 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: 300,
-          height: 60,
+          width: Adaptive.w(80),
+          height: Adaptive.h(8),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Icon(
                       Icons.monetization_on,
                       size: 30,
                       color: Color(0xFFFFBA4C),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: Adaptive.w(3)),
                     Column(
                       children: <Widget>[
                         Text('Booking Completed!',
@@ -602,7 +605,7 @@ class TransactCard4 extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: Adaptive.h(0.5)),
                         Row(
                           children: <Widget>[
                             Text('Nicolas Gamab',
@@ -633,7 +636,7 @@ class TransactCard4 extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 15,)
+                    SizedBox(width: Adaptive.w(4)),
                   ],
                 ),
               ],
