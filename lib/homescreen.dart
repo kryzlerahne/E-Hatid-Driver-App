@@ -79,8 +79,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color(0xFFFFFCEA),
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Home",
-              style:TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.bold)),
+          title: Text("Home"),
           backgroundColor: Color(0xFFFED90F),
         ),
         drawer: Drawer(
@@ -285,11 +284,12 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(19)
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height / 2,
+            height: 45.h,
+            width: 150.w,
             child: Column(
               children: [
                 Container(
-                  height: 53.0,
+                  height: 8.5.h,
                   decoration: BoxDecoration(
                     color: Color(0XFF0CBB8A),
                     borderRadius: BorderRadius.only(
@@ -299,13 +299,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: SizedBox.expand(
                     child: Padding(
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(20),
                       child: Text("Passengers Near You",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Montserrat',
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 19.sp,
                           letterSpacing: -0.5,
                           fontWeight: FontWeight.bold,
                         ),
@@ -321,9 +321,10 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             new Text(
                               "Karlo Pangilinan",
+                              maxLines:1,
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color(0xFF272727),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -332,7 +333,7 @@ class _HomePageState extends State<HomePage> {
                               "112m away",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 15.sp,
                                 color: Color(0xFF0CBC8B),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -347,12 +348,12 @@ class _HomePageState extends State<HomePage> {
                         },
                         leading: Icon(
                           Icons.account_circle_outlined,
-                          size: 40,
+                          size: 26.sp,
                           color: Color(0xFF777777),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 25,
+                          size: 20.sp,
                           color: Color(0xFF777777),
                         ),
                       ),
@@ -363,7 +364,7 @@ class _HomePageState extends State<HomePage> {
                               "Danna Aguda",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color(0xFF272727),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -372,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                               "157m away",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 15.sp,
                                 color: Color(0xFF0CBC8B),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -382,12 +383,12 @@ class _HomePageState extends State<HomePage> {
                         onTap: (){},
                         leading: Icon(
                           Icons.account_circle_outlined,
-                          size: 40,
+                          size: 26.sp,
                           color: Color(0xFF777777),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 25,
+                          size: 20.sp,
                           color: Color(0xFF777777),
                         ),
                       ),
@@ -395,10 +396,11 @@ class _HomePageState extends State<HomePage> {
                         title: Column(
                           children: [
                             new Text(
-                              "Mar Mandigma",
+                              maxLines:1,
+                              "Marwin Mandigma",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color(0xFF272727),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -407,7 +409,7 @@ class _HomePageState extends State<HomePage> {
                               "201m away",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 15.sp,
                                 color: Color(0xFF0CBC8B),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -417,12 +419,12 @@ class _HomePageState extends State<HomePage> {
                         onTap: (){},
                         leading: Icon(
                           Icons.account_circle_outlined,
-                          size: 40,
+                          size: 26.sp,
                           color: Color(0xFF777777),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 25,
+                          size: 20.sp,
                           color: Color(0xFF777777),
                         ),
                       ),
@@ -430,10 +432,11 @@ class _HomePageState extends State<HomePage> {
                         title: Column(
                           children: [
                             new Text(
-                              "Jean Falcatan",
+                              maxLines:1,
+                              "Jean Marie Falcatan",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color(0xFF272727),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -442,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                               "292m away",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 15.sp,
                                 color: Color(0xFF0CBC8B),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -452,12 +455,12 @@ class _HomePageState extends State<HomePage> {
                         onTap: (){},
                         leading: Icon(
                           Icons.account_circle_outlined,
-                          size: 40,
+                          size: 26.sp,
                           color: Color(0xFF777777),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 25,
+                          size: 20.sp,
                           color: Color(0xFF777777),
                         ),
                       ),
@@ -465,10 +468,11 @@ class _HomePageState extends State<HomePage> {
                         title: Column(
                           children: [
                             new Text(
-                              "Kevin Ortega",
+                              maxLines:1,
+                              "John Matthew Ortega",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color(0xFF272727),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -477,7 +481,7 @@ class _HomePageState extends State<HomePage> {
                               "305m away",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 16,
+                                fontSize: 15.sp,
                                 color: Color(0xFF0CBC8B),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -487,12 +491,12 @@ class _HomePageState extends State<HomePage> {
                         onTap: (){},
                         leading: Icon(
                           Icons.account_circle_outlined,
-                          size: 40,
+                          size: 26.sp,
                           color: Color(0xFF777777),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 25,
+                          size: 20.sp,
                           color: Color(0xFF777777),
                         ),
                       ),
