@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class OtpBody extends StatefulWidget {
   final String phone;
@@ -23,8 +24,8 @@ class _OtpBodyState extends State<OtpBody> {
   String pin = " ";
 
   final defaultPinTheme = PinTheme(
-    width: 56,
-    height: 56,
+    width: 56.w,
+    height: 4.h,
     textStyle: GoogleFonts.poppins(
       fontSize: 22,
       color: Color.fromRGBO(30, 60, 87, 1),
@@ -36,8 +37,8 @@ class _OtpBodyState extends State<OtpBody> {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Container(
-        width: 56,
-        height: 3,
+        width: 56.w,
+        height: Adaptive.h(.5),
         decoration: BoxDecoration(
           color: Color.fromRGBO(137, 146, 160, 1),
           borderRadius: BorderRadius.circular(8),
@@ -50,8 +51,8 @@ class _OtpBodyState extends State<OtpBody> {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Container(
-        width: 56,
-        height: 3,
+        width: 56.w,
+        height: .5.h,
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 140, 204, 255),
           borderRadius: BorderRadius.circular(8),
@@ -159,8 +160,8 @@ class _OtpBodyState extends State<OtpBody> {
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        height: 1.171875,
-                        fontSize: 26.0,
+                        height: .15.h,
+                        fontSize: 23.0.sp,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
                         color: Color.fromARGB(255, 32, 32, 32),
@@ -173,8 +174,8 @@ class _OtpBodyState extends State<OtpBody> {
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      height: 1.171875,
-                      fontSize: 14,
+                      height: .15.h,
+                      fontSize: 17.sp,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 126, 126, 126),
@@ -186,8 +187,8 @@ class _OtpBodyState extends State<OtpBody> {
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      height: 1.171875,
-                      fontSize: 14,
+                      height: .15.h,
+                      fontSize: 17.sp,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 53, 53, 53),
@@ -233,15 +234,15 @@ class _OtpBodyState extends State<OtpBody> {
                         }
                     ),
                   ),
-                  const SizedBox(height: 20,),
+                  SizedBox(height: 2.h,),
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text: "Didn't receive the code? ",
                           style: TextStyle(
-                            height: 1.171875,
-                            fontSize: 16.0,
+                            height: .15.h,
+                            fontSize: 17.sp,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w600,
                             color: Color.fromARGB(255, 126, 126, 126),
@@ -256,8 +257,8 @@ class _OtpBodyState extends State<OtpBody> {
                             child: Text(
                               "Resend SMS",
                               style: TextStyle(
-                                height: 1.171875,
-                                fontSize: 16.0,
+                                height: .1.h,
+                                fontSize: 17.sp,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 123, 20, 255),
@@ -275,8 +276,8 @@ class _OtpBodyState extends State<OtpBody> {
                       child: Text("Change Mobile Number",
                         style: TextStyle(
                           fontFamily: 'Montserrat',
-                          height: 1.171875,
-                          fontSize: 16.0,
+                          height: .15.h,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
                           color: Color.fromARGB(255, 39, 39, 39),
                           decoration: TextDecoration.underline,
@@ -289,7 +290,7 @@ class _OtpBodyState extends State<OtpBody> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20,),
+                 SizedBox(height: 2.h),
                   MaterialButton(
                     onPressed: (){
                       if(pin.length >= 6) {
@@ -313,16 +314,16 @@ class _OtpBodyState extends State<OtpBody> {
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Montserrat',
-                        fontSize: 16,
+                        fontSize: 17.sp,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
-                  Text("By continuing you’re indicating that you accept our Terms"
-                      " of Use and our Privacy Policy",
+                  SizedBox(height: 2.h),
+                  Text("By continuing you’re indicating that you accept our Terms of Use and our Privacy Policy",
+                   maxLines: 2,
                     style: TextStyle(
-                      height: 1.171875,
-                      fontSize: 14,
+                      height: .2.h,
+                      fontSize: 15.sp,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 126, 126, 126),
