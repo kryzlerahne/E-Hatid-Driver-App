@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class accountBody extends StatelessWidget {
   bool isObscurePassword = true;
@@ -13,6 +14,7 @@ class accountBody extends StatelessWidget {
         },
         child: ListView(
           children: [
+            SizedBox(height: Adaptive.h(2)),
             Center(
               child: Stack(
                 children: [
@@ -51,44 +53,48 @@ class accountBody extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: Adaptive.h(.5)),
             buildTextField("Name", "Martin Nevira", false),
             buildTextField("Email", "Nevira_Mar@gmail.com", true),
             buildTextField("Contact Number", "09127890912", false),
             buildTextField("Password", "**********", true),
             SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MaterialButton(
-                  onPressed: () {},
-                  minWidth: 150,
-                  child: Text("Cancel",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white)),
-                  color: Color(0XFFC5331E),
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                MaterialButton(
-                  onPressed: () {},
-                  minWidth: 150,
-                  child: Text("Save",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white)),
-                  color: Color(0xFF0CBC8B),
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-              ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {},
+                    minWidth: Adaptive.w(40),
+                    child: Text("Cancel",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white)),
+                    color: Color(0XFFC5331E),
+                    //padding: EdgeInsets.symmetric(horizontal: 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                  SizedBox(width: 7.w),
+                  MaterialButton(
+                    onPressed: () {},
+                    minWidth: Adaptive.w(40),
+                    child: Text("Save",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white)),
+                    color: Color(0xFF0CBC8B),
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -99,7 +105,7 @@ class accountBody extends StatelessWidget {
   Widget buildTextField(
       String labelText, String placeholder, bool isPasswordTextField) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 30),
+      padding: EdgeInsets.only(bottom: 2.h),
       child: TextField(
         obscureText: isPasswordTextField ? isObscurePassword : false,
         decoration: InputDecoration(
@@ -119,7 +125,7 @@ class accountBody extends StatelessWidget {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             floatingLabelStyle: TextStyle(
               color: Color(0xFFFED90F),
-              fontSize: 26,
+              fontSize: 20,
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
             ),
