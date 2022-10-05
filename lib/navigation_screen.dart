@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ehatid_driver_app/destination.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -11,7 +12,7 @@ import 'dart:math' show cos, sqrt, asin;
 import 'accept_decline.dart';
 import 'main.dart';
 
-class DriverMap extends StatefulWidget {
+/*class DriverMap extends StatefulWidget {
   @override
   State<DriverMap> createState() => _DriverMapState();
 }
@@ -81,12 +82,10 @@ class _DriverMapState extends State<DriverMap> {
       ),
     );
   }
-}
+}*/
 
 class NavigationScreen extends StatefulWidget {
-  final double lat;
-  final double lng;
-  NavigationScreen(this.lat, this.lng);
+  const NavigationScreen({Key? key}) : super(key: key);
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -149,7 +148,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => MyApp()),
+                    MaterialPageRoute(builder: (context) => AcceptDecline()),
                         (route) => false);
               },
               child: Icon(Icons.arrow_back),
@@ -171,14 +170,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ),
                   onPressed: () async {
                     await launchUrl(Uri.parse(
-                        'google.navigation:q=${widget.lat}, ${widget.lng}&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
+                        'google.navigation:q=(13.7930, 121.0710)&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
                   },
                 ),
               ),
             ),
           ),
           Positioned(
-            right: 30.w,
+            right: 27.w,
             top: 20.h,
             child: Container(
               height: Adaptive.h(5),
@@ -321,7 +320,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   onPressed: (){
                     showDialog(
                       context: context,
-                      builder: (context) => BookingSuccessDialog(),
+                      builder: (context) => Destination(),
                     );
                   },
                   shape: RoundedRectangleBorder(
@@ -344,6 +343,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
   );
 
   getNavigation() async {
+    BitmapDescriptor customMarker = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(),
+      "assets/images/tricMarker.png",
+    );
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
     final GoogleMapController? controller = await _controller.future;
@@ -382,13 +385,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     LatLng(currentLocation.latitude!, currentLocation.longitude!);
                 sourcePosition = Marker(
                   markerId: MarkerId(currentLocation.toString()),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueBlue),
+                  icon: customMarker,
                   position:
                   LatLng(currentLocation.latitude!, currentLocation.longitude!),
                   infoWindow: InfoWindow(
                       title: '${double.parse(
-                          (getDistance(LatLng(widget.lat, widget.lng))
+                          (getDistance(LatLng(13.7930, 121.0710))
                               .toStringAsFixed(2)))} km'
                   ),
                   onTap: () {
@@ -396,7 +398,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   },
                 );
               });
-              getDirections(LatLng(widget.lat, widget.lng));
+              getDirections(LatLng(13.7930, 121.0710));
             }
           });
     }
@@ -455,7 +457,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       );
       destinationPosition = Marker(
         markerId: MarkerId('destination'),
-        position: LatLng(widget.lat, widget.lng),
+        position: LatLng(13.7930, 121.0710),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
       );
     });
