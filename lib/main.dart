@@ -1,5 +1,7 @@
 import 'package:ehatid_driver_app/accept_decline.dart';
 import 'package:ehatid_driver_app/homescreen.dart';
+import 'package:ehatid_driver_app/register_page.dart';
+import 'package:ehatid_driver_app/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'intro_slider.dart';
@@ -38,11 +40,11 @@ class MyApp extends StatelessWidget {
             backgroundColor: Color(0xFFFED90F),
           ),
           //home: IntroSliderPage(),
-          initialRoute: initScreen == 0 ? 'introslider' : 'homepage',
+          initialRoute: initScreen == 0 ? 'welcome' : 'homepage',
           // paltan ang login ng homepage
           routes: {
             'homepage': (context) => Navigation(),
-            'introslider': (context) => IntroSliderPage(),
+            'welcome': (context) => WelcomeScreen(),
           },
         );
       },
