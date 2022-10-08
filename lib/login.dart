@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  final formkey = GlobalKey<FormState>();
+  final loginform = GlobalKey<FormState>();
   bool _isHidden = true;
 
   @override
@@ -55,7 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFFFFCEA),
       body: Form(
-        key: formkey,
+        key: loginform,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Center(
           child: Stack(
             children: <Widget>[
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           filled: true,
                         ),
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your password.';
                           } else if (value.length < 8) {
                             return "Length of password must be 8 or greater.";
@@ -188,14 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        if (formkey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Success"),
-                          ));
-                          signIn;
-                        }
-                      },
+                      onPressed: signIn,
                       color: Color(0xFFFED90F),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)
