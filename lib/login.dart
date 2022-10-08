@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Screens/Welcome/components/body.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -97,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: Adaptive.h(3)),
                     SizedBox(
                       width: Adaptive.w(85),
-                      child: TextField(
+                      child: TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -117,6 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           fillColor: Colors.white,
                           filled: true,
                         ),
+                        validator: (email) =>
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid email'
+                            : null,
                       ),
                     ),
                     SizedBox(height: Adaptive.h(1.5)),
@@ -152,10 +155,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           fillColor: Colors.white,
                           filled: true,
                         ),
-                        validator: (email) =>
-                        email != null && !EmailValidator.validate(email)
-                            ? 'Enter a valid email'
-                            : null,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your password.';
+                          } else if (value.length < 8) {
+                            return "Length of password must be 8 or greater.";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Padding(
@@ -181,7 +188,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: signIn,
+                      onPressed: () {
+                        if (formkey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Success"),
+                          ));
+                          signIn;
+                        }
+                      },
                       color: Color(0xFFFED90F),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)
