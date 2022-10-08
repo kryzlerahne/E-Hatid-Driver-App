@@ -445,7 +445,7 @@ class BookingSuccessDialog extends StatelessWidget {
             MaterialButton(
               onPressed: () {
                 Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (_) => DriverMap(),
+                  builder: (_) => NavigationScreen(),
                 ),
                 );
               },
