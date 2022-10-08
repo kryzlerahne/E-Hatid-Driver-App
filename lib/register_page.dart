@@ -4,7 +4,6 @@ import 'package:ehatid_driver_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RegisterPage extends StatefulWidget {
   // final VoidCallback showLoginPage;
@@ -17,6 +16,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
   //text controller
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -55,14 +55,14 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Future addUserDetails(String firstName, String lastName, String email,
-      String username, String password) async {
+  Future addUserDetails(String firstName, String lastName, String email, String username, String password) async {
     await FirebaseFirestore.instance.collection('drivers').add({
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'username': username,
-      'password': password,
+      'first name': firstName,
+      'last name': lastName,
+      'email' : email,
+      'username' : username,
+      'password' : password,
+
     });
   }
 
@@ -77,7 +77,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final formkey = GlobalKey<FormState>();
   bool _isHidden = true;
-  bool _isHidden2 = true;
 
   //final formKey = GlobalKey<FormState>();
 
@@ -87,38 +86,24 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Color(0xFFFFFCEA),
       body: Form(
         key: formkey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 5.5.h),
-                Container(
-                  height: 5.h,
-                  child: Text(
-                    "Create your account",
-                    style: TextStyle(
-
-                        fontFamily: 'Montserrat',
-                        fontSize: 26,
-                        letterSpacing: -2,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 1.5.h),
                 Text(
-                  "Please complete the following details.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 17,
-                      color: Color(0xff272727),
-                      letterSpacing: -0.5,
-                      fontWeight: FontWeight.w500),
+                  "Create your account",
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 28, letterSpacing: -2, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 3.h),
+                SizedBox(height: 10),
+                Text(
+                  "Please complete the following details.", textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: Color(0xff272727), letterSpacing: -0.5, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 30),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _firstNameController,
                     decoration: InputDecoration(
@@ -127,23 +112,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "First Name",
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if(value == null || value.isEmpty){
                         return 'Please enter your first name.';
                       } else {
                         return null;
@@ -151,9 +132,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _lastNameController,
                     decoration: InputDecoration(
@@ -162,23 +143,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "Last Name",
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if(value == null || value.isEmpty){
                         return 'Please enter your last name.';
                       } else {
                         return null;
@@ -186,9 +163,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -197,18 +174,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "Email",
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
@@ -218,9 +191,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         : null,
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _userNameController,
                     decoration: InputDecoration(
@@ -229,34 +202,30 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "Username",
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if(value == null || value.isEmpty){
                         return 'Please enter your username.';
-                      } else if (value.length < 4) {
+                      } else if(value.length < 4) {
                         return "Choose a username with 4 or more characters.";
                       }
                       return null;
                     },
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _passwordController,
                     obscureText: _isHidden,
@@ -266,30 +235,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "Password",
                       suffixIcon: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(
-                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                          _isHidden
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Color(0xffCCCCCC),
                         ),
                       ),
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if(value == null || value.isEmpty){
                         return 'Please enter your password.';
                       } else if (value.length < 8) {
                         return "Length of password must be 8 or greater.";
@@ -298,111 +265,112 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextFormField(
                     controller: _confirmpasswordController,
-                    obscureText: _isHidden2,
+                    obscureText: _isHidden,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFFED90F),
-                        ),
+                        borderSide: BorderSide(color: Color(0xFFFED90F),),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       hintText: "Confirm Password",
                       suffixIcon: InkWell(
-                        onTap: _toggleConfirmPasswordView,
+                        onTap: _togglePasswordView,
                         child: Icon(
-                          _isHidden2 ? Icons.visibility : Icons.visibility_off,
+                          _isHidden
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Color(0xffCCCCCC),
                         ),
                       ),
-                      hintStyle: TextStyle(
-                        color: Color(0xbc000000),
+                      hintStyle: TextStyle( color: Color(0xbc000000),
                         fontSize: 15,
                         fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                      ),
+                        fontWeight: FontWeight.w400,),
                       fillColor: Colors.white,
                       filled: true,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if(value == null || value.isEmpty){
                         return 'Please re-enter your password.';
                       } else if (value.length < 8) {
                         return "Length of password must be 8 or greater.";
-                      } else if (value != _passwordController.text) {
+                      } else if(value != _passwordController.text) {
                         return "Password mismatch.";
                       }
                       return null;
                     },
                   ),
                 ),
-                SizedBox(height: 3.h),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: MaterialButton(
-                    onPressed: () {
-                      if (formkey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Success"),
-                        ));
-                        signUp;
+                  /**child: MaterialButton(
+                      onPressed: (){
+                      if(formkey.currentState!.validate()){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Success"),
+                      ));
                       }
-                    },
-                    color: Color(0xFFFED90F),
-                    shape: RoundedRectangleBorder(
+                      },
+                      color: Color(0xFFFED90F),
+                      shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    minWidth: double.infinity,
-                    child: Text(
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      minWidth: double.infinity,
+                      child: Text(
                       "Sign up",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontSize: 16),
+                      color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
+                      ),
+                      ),
+                      ),**/
+                  child: GestureDetector(
+                    onTap: signUp,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFED90F),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(
+                              color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(height: 1.5.h),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Have an account already?",
-                      style: TextStyle(
-                          color: Color(0xFF494949),
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          letterSpacing: -0.5,
-                          fontWeight: FontWeight.w500),
+                    Text("Have an account already?", style: TextStyle(
+                        color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
+                    ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => LoginScreen(),
-                          ),
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (_) => LoginScreen(),
+                        ),
                         );
                       },
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          letterSpacing: -0.5,
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.underline,
-                          color: Color(0xFFFEDF3F),
-                        ),
+                      child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,
+                        letterSpacing: -0.5, fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline, color:Color(0xFFFEDF3F),
+                      ),
                       ),
                     ),
                   ],
@@ -420,10 +388,6 @@ class _RegisterPageState extends State<RegisterPage> {
       _isHidden = !_isHidden;
     });
   }
-
-  void _toggleConfirmPasswordView() {
-    setState(() {
-      _isHidden2 = !_isHidden2;
-    });
-  }
 }
+
+
