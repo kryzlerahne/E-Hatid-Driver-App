@@ -5,15 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-List cars = [
-  {'id': 0, 'name': 'Select a ride', 'price': 0.0},
-  {'id': 1, 'name': 'Uber', 'price': 1.0},
-  {'id': 2, 'name': 'Grab', 'price': 2.0},
-  {'id': 3, 'name': 'Grab', 'price': 3.0},
-  {'id': 2, 'name': 'Grab', 'price': 2.0},
-  {'id': 2, 'name': 'Grab', 'price': 2.0},
-];
-
 class AcceptDecline extends StatefulWidget {
   @override
   State<AcceptDecline> createState() => AcceptDeclineState();

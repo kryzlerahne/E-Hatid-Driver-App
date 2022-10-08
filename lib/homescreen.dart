@@ -285,7 +285,6 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Container(
             height: 45.h,
-            width: 150.w,
             child: Column(
               children: [
                 Container(
