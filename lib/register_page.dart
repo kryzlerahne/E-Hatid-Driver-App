@@ -101,6 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Form(
                 key: formkey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Center(
                   child: SingleChildScrollView(
                     child: Column(
