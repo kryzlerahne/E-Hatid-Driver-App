@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ehatid_driver_app/homescreen.dart';
 import 'package:ehatid_driver_app/login.dart';
+import 'package:ehatid_driver_app/navigation_bar.dart';
 import 'package:ehatid_driver_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -30,16 +33,50 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmpasswordController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmpasswordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _userNameController.dispose();
-    super.dispose();
+  validateForm() {
+    if(_firstNameController.text == null || _firstNameController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please enter your first name.");
+    }
+    else if(_lastNameController.text == null || _lastNameController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please enter your last name.");
+    }
+    else if(_emailController.text != null && !_emailController.text.contains("@"))
+    {
+      Fluttertoast.showToast(msg: "Enter a valid email.");
+    }
+    else if (_userNameController.text == null || _userNameController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please enter your username.");
+    }
+    else if (_userNameController.text.length < 4)
+    {
+      Fluttertoast.showToast(msg: "Choose a username with 4 or more characters.");
+    }
+    else if(_passwordController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please enter your password.");
+    }
+    else if(_passwordController.text.length < 8)
+    {
+      Fluttertoast.showToast(msg: "Password must be atleast 8 Characters.");
+    }
+    else if (_confirmpasswordController.text == null || _confirmpasswordController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please re-enter your password.");
+    }
+    else if (_confirmpasswordController.text != _passwordController.text)
+    {
+      Fluttertoast.showToast(msg: "Password mismatch.");
+    }
+    else
+    {
+      signUp();
+    }
   }
+
+  @override
 
   Future signUp() async {
     showDialog(
@@ -78,16 +115,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Account has been Created.");
-      Navigator.push(context, MaterialPageRoute(builder: (c)=> HomePage()));
+      Timer(const Duration(seconds: 3),(){
+        Navigator.push(context, MaterialPageRoute(builder: (c)=> Navigation()));
+      });
     }
     else
     {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been Created.");
     }
+
+
   }
 
-  /**Future addUserDetails(String firstName, String lastName, String email,
+  Future addUserDetails(String firstName, String lastName, String email,
       String username, String password) async {
     await FirebaseFirestore.instance.collection('drivers').add({
       'first_name': firstName,
@@ -96,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'username': username,
       'password': password,
     });
-  }**/
+  }
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
@@ -133,7 +174,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Form(
                 key: formkey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Center(
                   child: SingleChildScrollView(
                     child: Column(
@@ -196,13 +236,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 10.sp),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your first name.';
-                              } else {
-                                return null;
-                              }
-                            },
                           ),
                         ),
                         SizedBox(height: 1.5.h),
@@ -363,14 +396,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 10.sp),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your username.';
-                              } else if (value.length < 4) {
-                                return "Choose a username with 4 or more characters.";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         SizedBox(height: 1.5.h),
@@ -408,14 +433,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 10.sp),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password.';
-                              } else if (value.length < 8) {
-                                return "Length of password must be 8 or greater.";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         SizedBox(height: 1.5.h),
@@ -453,16 +470,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 10.sp),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please re-enter your password.';
-                              } else if (value.length < 8) {
-                                return "Length of password must be 8 or greater.";
-                              } else if (value != _passwordController.text) {
-                                return "Password mismatch.";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         SizedBox(height: 3.h),
@@ -471,16 +478,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: 50.w,
                           child: MaterialButton(
                             onPressed: (){
-                              if(formkey.currentState!.validate()){
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text("Success"),
-                                ));
-                                signUp();
-                                Navigator.pushReplacement(context, MaterialPageRoute(
-                                  builder: (_) => LoginScreen(),
-                                ),
-                                );
-                              }
+                              validateForm();
                             },
                             color: Colors.black,
                             shape: RoundedRectangleBorder(
