@@ -31,6 +31,15 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _confirmpasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmpasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _userNameController.dispose();
+    super.dispose();
+  }
 
   Future signUp() async {
     showDialog(
@@ -76,11 +85,9 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been Created.");
     }
-
-
   }
 
-  Future addUserDetails(String firstName, String lastName, String email,
+  /**Future addUserDetails(String firstName, String lastName, String email,
       String username, String password) async {
     await FirebaseFirestore.instance.collection('drivers').add({
       'first_name': firstName,
@@ -89,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'username': username,
       'password': password,
     });
-  }
+  }**/
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==

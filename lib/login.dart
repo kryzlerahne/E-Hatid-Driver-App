@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:ehatid_driver_app/forgot_pw_page.dart';
+import 'package:ehatid_driver_app/homescreen.dart';
 import 'package:ehatid_driver_app/intro_slider.dart';
 import 'package:ehatid_driver_app/main_page.dart';
 import 'package:ehatid_driver_app/signup.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,24 +24,51 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  //text controller
+//text controller
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  final FirebaseAuth fAuth = FirebaseAuth.instance;
+  User? currentFirebaseUser;
+
   Future signIn() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setInt('initScreen', 1);
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-    ).whenComplete((){
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ),
-      );
-    });
+    final User? firebaseUser = (
+        await fAuth.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ).catchError((msg){
+          //Navigator.pop(context);
+          Fluttertoast.showToast(msg: "Error: " + msg.toString());
+        })
+    ).user;
+
+    if(firebaseUser != null)
+    {
+      DatabaseReference driversRef = FirebaseDatabase.instance.ref().child("drivers");
+      driversRef.child(firebaseUser.uid).once().then((driverKey)
+      {
+        final snap = driverKey.snapshot;
+        if(snap.value != null)
+        {
+          currentFirebaseUser = firebaseUser;
+          Fluttertoast.showToast(msg: "Login Successful.");
+          Timer(const Duration(seconds: 3),(){
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>  HomePage()));
+          });
+        }
+        else
+        {
+          Fluttertoast.showToast(msg: "No record exist with this email.");
+          //fAuth.signOut();
+          //Navigator.push(context, MaterialPageRoute(builder: (c)=>  SignUp()));
+        }
+      });
+    }
+    else
+    {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Error Occurred during Login.");
+    }
   }
 
   @override
