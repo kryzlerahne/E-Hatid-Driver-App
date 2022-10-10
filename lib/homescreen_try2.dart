@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,9 +7,11 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'assistants/assistant_methods.dart';
 import 'global/global.dart';
+import 'login.dart';
 
 
 class HomeTabPage extends StatefulWidget {
@@ -24,21 +27,35 @@ class _HomeTabPageState extends State<HomeTabPage>
 {
   GoogleMapController? newGoogleMapController;
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final currentFirebaseUser = FirebaseAuth.instance.currentUser!;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(13.7752, 121.0453),
-    zoom: 14.4746,
+    zoom: 18.4746,
   );
-
   Position? driverCurrentPosition;
   var geoLocator = Geolocator();
   LocationPermission? _locationPermission;
 
-  String statusText = "Now Offline";
-  Color buttonColor = Colors.white;
+  String statusText = "Go Online";
+  Color buttonColor = Color(0xFF0CBC8B);
   bool isDriverActive = false;
 
 
+  Future<void> _signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('initScreen');
+    try {
+      await _firebaseAuth.signOut();
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (_) => LoginScreen(),
+      ),
+      );
+    } catch (e) {
+      print(e.toString()) ;
+    }
+  }
 
 
   blackThemeGoogleMap()
@@ -243,7 +260,118 @@ class _HomeTabPageState extends State<HomeTabPage>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Theme(
+      data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
+      child: Scaffold(
+        backgroundColor: Color(0xFFFFFCEA),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Home"),
+          backgroundColor: Color(0xFFFED90F),
+        ),
+        drawer: Drawer(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFED90F),
+                      ),
+                      accountName: new Text('Machu'),
+                      accountEmail: new Text(currentFirebaseUser.email!),
+                      currentAccountPicture: new CircleAvatar(
+                        radius: 50.0,
+                        backgroundImage: AssetImage("assets/images/machu.jpg"),
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Account"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.account_circle_sharp,
+                        color: Color(0xFFFED90F),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("FAQ"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.question_answer_outlined,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("How To Use App"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.info_outline_rounded,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Settings"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.settings,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Terms & Conditions"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.book,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Divider(),
+                              ListTile(
+                                title: Text("Sign Out"),
+                                onTap: () async => await _signOut(),
+                                leading: Icon(
+                                  Icons.logout,
+                                ),
+                                trailing: Icon(
+                                  Icons.arrow_right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      body: Stack(
       children: [
         GoogleMap(
           mapType: MapType.normal,
@@ -255,14 +383,14 @@ class _HomeTabPageState extends State<HomeTabPage>
             newGoogleMapController = controller;
 
             //black theme google map
-           // blackThemeGoogleMap();
+            // blackThemeGoogleMap();
 
             locateDriverPosition();
           },
         ),
 
         //ui for online offline driver
-        statusText != "Now Online"
+        statusText != "Go Offline"
             ? Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
@@ -272,7 +400,7 @@ class _HomeTabPageState extends State<HomeTabPage>
 
         //button for online offline driver
         Positioned(
-          top: statusText != "Now Online"
+          top: statusText != "Go Offline"
               ? MediaQuery.of(context).size.height * 0.46
               : 25,
           left: 0,
@@ -289,26 +417,26 @@ class _HomeTabPageState extends State<HomeTabPage>
                     updateDriversLocationAtRealTime();
 
                     setState(() {
-                      statusText = "Now Online";
+                      statusText = "Go Offline";
                       isDriverActive = true;
                       buttonColor = Colors.transparent;
                     });
 
                     //display Toast
-                    Fluttertoast.showToast(msg: "you are Online Now");
+                    Fluttertoast.showToast(msg: "You're Now Online");
                   }
                   else //online
                       {
                     driverIsOfflineNow();
 
                     setState(() {
-                      statusText = "Now Offline";
+                      statusText = "Go Online";
                       isDriverActive = false;
-                      buttonColor = Colors.grey;
+                      buttonColor = Color(0xFF0CBC8B);
                     });
 
                     //display Toast
-                    Fluttertoast.showToast(msg: "you are Offline Now");
+                    Fluttertoast.showToast(msg: "You're Now Offline");
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -318,7 +446,7 @@ class _HomeTabPageState extends State<HomeTabPage>
                     borderRadius: BorderRadius.circular(26),
                   ),
                 ),
-                child: statusText != "Now Online"
+                child: statusText != "Go Offline"
                     ? Text(
                   statusText,
                   style: const TextStyle(
@@ -337,7 +465,7 @@ class _HomeTabPageState extends State<HomeTabPage>
           ),
         ),
       ],
-    );
+    ),),);
   }
 
   driverIsOnlineNow() async
@@ -347,7 +475,7 @@ class _HomeTabPageState extends State<HomeTabPage>
     );
     driverCurrentPosition = pos;
 
-    Geofire.initialize("active_drivers");
+    Geofire.initialize("activeDrivers");
 
     Geofire.setLocation(
         currentFirebaseUser!.uid,
@@ -408,5 +536,3 @@ class _HomeTabPageState extends State<HomeTabPage>
     });
   }
 }
-
-
