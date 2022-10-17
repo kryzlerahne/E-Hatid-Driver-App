@@ -1,47 +1,47 @@
 import 'dart:async';
-import 'package:ehatid_driver_app/accept_decline.dart';
-import 'package:ehatid_driver_app/login.dart';
-import 'package:ehatid_driver_app/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'assistants/assistant_methods.dart';
+import 'global/global.dart';
+import 'login.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+
+
+class _HomePageState extends State<HomePage>
+{
+  GoogleMapController? newGoogleMapController;
+  final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final panelController = PanelController();
-  final Completer<GoogleMapController?> _controller = Completer();
+  final currentFirebaseUser = FirebaseAuth.instance.currentUser!;
 
-  bool _activeButton = true;
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(13.7752, 121.0453),
     zoom: 18.4746,
   );
+  Position? driverCurrentPosition;
+  var geoLocator = Geolocator();
+  LocationPermission? _locationPermission;
 
+  String statusText = "Go Online";
+  Color buttonColor = Color(0xFF0CBC8B);
+  bool isDriverActive = false;
 
-  static final CameraPosition _kLake = CameraPosition(
-    //bearing: 192.8334901395799,
-      target: LatLng(13.7731, 121.0484),
-      //tilt: 59.440717697143555,
-      zoom: 107.15);
-  
-  static double OnlineGo = Adaptive.h(21);
-  double GoOnlineHeight = OnlineGo;
-
-  int counter = 0;
 
   Future<void> _signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -57,22 +57,209 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void toggle_activeButton() {
-    setState(() {
-      _activeButton = !_activeButton;
-      if (counter == 1) {
-        counter - 1;
-      } else {
-        counter + 1;
-      }
-    });
+
+  blackThemeGoogleMap()
+  {
+    newGoogleMapController!.setMapStyle('''
+                    [
+                      {
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#242f3e"
+                          }
+                        ]
+                      },
+                      {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#746855"
+                          }
+                        ]
+                      },
+                      {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                          {
+                            "color": "#242f3e"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "administrative.locality",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi.park",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#263c3f"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi.park",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#6b9a76"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#38414e"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                          {
+                            "color": "#212a37"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#9ca5b3"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#746855"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                          {
+                            "color": "#1f2835"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#f3d19c"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "transit",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#2f3948"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "transit.station",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#17263c"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#515c6d"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                          {
+                            "color": "#17263c"
+                          }
+                        ]
+                      }
+                    ]
+                ''');
+  }
+
+  checkIfLocationPermissionAllowed() async
+  {
+    _locationPermission = await Geolocator.requestPermission();
+
+    if(_locationPermission == LocationPermission.denied)
+    {
+      _locationPermission = await Geolocator.requestPermission();
+    }
+  }
+
+  locateDriverPosition() async
+  {
+    Position cPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    driverCurrentPosition = cPosition;
+
+    LatLng latLngPosition = LatLng(driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
+
+    CameraPosition cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
+
+    newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String humanReadableAddress = await AssistantMethods.searchAddressForGeographicCoOrdinates(driverCurrentPosition!, context);
+    print("this is your address = " + humanReadableAddress);
+  }
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    checkIfLocationPermissionAllowed();
   }
 
   @override
   Widget build(BuildContext context) {
-    final paneHeightClosed = MediaQuery.of(context).size.height * 0.19;
-    final paneHeightOpen = MediaQuery.of(context).size.height * 0.191;
-
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
       child: Scaffold(
@@ -93,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                         color: Color(0xFFFED90F),
                       ),
                       accountName: new Text('Machu'),
-                      accountEmail: new Text(user.email!),
+                      accountEmail: new Text(currentFirebaseUser.email!),
                       currentAccountPicture: new CircleAvatar(
                         radius: 50.0,
                         backgroundImage: AssetImage("assets/images/machu.jpg"),
@@ -184,500 +371,162 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        /*floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){
-            toggle_activeButton();
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text("List of Nearby Passengers",
-                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -1, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                content: Text(
-                  "---Passengers---",
-                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 12, letterSpacing: 2, fontStyle: FontStyle.italic),
-                  textAlign: TextAlign.center,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("CANCEL"),
+        body: Stack(
+          children: [
+            GoogleMap(
+              mapType: MapType.normal,
+              myLocationEnabled: true,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller)
+              {
+                _controllerGoogleMap.complete(controller);
+                newGoogleMapController = controller;
+
+                //black theme google map
+                // blackThemeGoogleMap();
+
+                locateDriverPosition();
+              },
+            ),
+
+            //ui for online offline driver
+            statusText != "Go Offline"
+                ? Container(
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              color: Colors.black87,
+            )
+                : Container(),
+
+            //button for online offline driver
+            Positioned(
+              top: statusText != "Go Offline"
+                  ? MediaQuery.of(context).size.height * 0.46
+                  : 25,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: ()
+                    {
+                      if(isDriverActive != true) //offline
+                          {
+                        driverIsOnlineNow();
+                        updateDriversLocationAtRealTime();
+
+                        setState(() {
+                          statusText = "Go Offline";
+                          isDriverActive = true;
+                          buttonColor = Colors.transparent;
+                        });
+
+                        //display Toast
+                        Fluttertoast.showToast(msg: "You're Now Online");
+                      }
+                      else //online
+                          {
+                        driverIsOfflineNow();
+
+                        setState(() {
+                          statusText = "Go Online";
+                          isDriverActive = false;
+                          buttonColor = Color(0xFF0CBC8B);
+                        });
+
+                        //display Toast
+                        Fluttertoast.showToast(msg: "You're Now Offline");
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(26),
+                      ),
+                    ),
+                    child: statusText != "Go Offline"
+                        ? Text(
+                      statusText,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    )
+                        : const Icon(
+                      Icons.phonelink_ring,
+                      color: Colors.white,
+                      size: 26,
+                    ),
                   ),
                 ],
               ),
-            );
-          },
-          label: Text(
-            _activeButton
-                ? 'Go Online'
-                : 'Go Offline',
-          ),
-          backgroundColor: Color(
-            _activeButton
-                ? 0xFF0CBC8B
-                : 0xFFE74338,
-          ),
-          icon: Icon(Icons.power_settings_new_rounded),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,*/
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            SlidingUpPanel(
-              controller: panelController,
-              minHeight: paneHeightClosed,
-              maxHeight: paneHeightOpen,
-              parallaxEnabled: true,
-              parallaxOffset: 0.5,
-              color: Color(0xFFFED90F),
-              onPanelSlide: (position) => setState(() {
-                final panelMaxScrollExtent = paneHeightOpen - paneHeightClosed;
-
-                GoOnlineHeight = position * panelMaxScrollExtent + OnlineGo;
-              }),
-              body: GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-              ),
-              panelBuilder: (controller) => PanelWidget(
-                controller: controller,
-                panelController: panelController,
-              ),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            ),
-            Positioned(
-              bottom: GoOnlineHeight,
-              child: Container(
-                  width: Adaptive.w(40),    // This will take 20% of the screen's width
-                  height: 5.h,
-                  child: GoOnline(context),
-              ),
             ),
           ],
-        ),
-      ),
-    );
+        ),),);
   }
 
-  Widget GoOnline(BuildContext context) => FloatingActionButton.extended(
-    label: Text(
-      _activeButton
-          ? 'Go Online'
-          : 'Go Offline',
-      style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
-    ),
-    backgroundColor: Color(
-      _activeButton
-          ? 0xFF0CBC8B
-          : 0xFFE74338,
-    ),
-    onPressed: (){
-      toggle_activeButton();
-      showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(19)
-          ),
-          child: Container(
-            height: 45.h,
-            child: Column(
-              children: [
-                Container(
-                  height: 8.5.h,
-                  decoration: BoxDecoration(
-                    color: Color(0XFF0CBB8A),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                  ),
-                  child: SizedBox.expand(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text("Passengers Near You",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontSize: 19.sp,
-                          letterSpacing: -0.5,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      ListTile(
-                        title: Column(
-                          children: [
-                            new Text(
-                              "Karlo Pangilinan",
-                              maxLines:1,
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16.sp,
-                                color: Color(0xFF272727),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            new Text(
-                              "112m away",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.sp,
-                                color: Color(0xFF0CBC8B),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (_) => AcceptDecline()
-                          ),
-                          );
-                        },
-                        leading: Icon(
-                          Icons.account_circle_outlined,
-                          size: 26.sp,
-                          color: Color(0xFF777777),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 20.sp,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                      ListTile(
-                        title: Column(
-                          children: [
-                            new Text(
-                              "Danna Aguda",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16.sp,
-                                color: Color(0xFF272727),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            new Text(
-                              "157m away",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.sp,
-                                color: Color(0xFF0CBC8B),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: (){},
-                        leading: Icon(
-                          Icons.account_circle_outlined,
-                          size: 26.sp,
-                          color: Color(0xFF777777),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 20.sp,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                      ListTile(
-                        title: Column(
-                          children: [
-                            new Text(
-                              maxLines:1,
-                              "Marwin Mandigma",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16.sp,
-                                color: Color(0xFF272727),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            new Text(
-                              "201m away",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.sp,
-                                color: Color(0xFF0CBC8B),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: (){},
-                        leading: Icon(
-                          Icons.account_circle_outlined,
-                          size: 26.sp,
-                          color: Color(0xFF777777),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 20.sp,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                      ListTile(
-                        title: Column(
-                          children: [
-                            new Text(
-                              maxLines:1,
-                              "Jean Marie Falcatan",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16.sp,
-                                color: Color(0xFF272727),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            new Text(
-                              "292m away",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.sp,
-                                color: Color(0xFF0CBC8B),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: (){},
-                        leading: Icon(
-                          Icons.account_circle_outlined,
-                          size: 26.sp,
-                          color: Color(0xFF777777),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 20.sp,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                      ListTile(
-                        title: Column(
-                          children: [
-                            new Text(
-                              maxLines:1,
-                              "John Matthew Ortega",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16.sp,
-                                color: Color(0xFF272727),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            new Text(
-                              "305m away",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.sp,
-                                color: Color(0xFF0CBC8B),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: (){},
-                        leading: Icon(
-                          Icons.account_circle_outlined,
-                          size: 26.sp,
-                          color: Color(0xFF777777),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 20.sp,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+  driverIsOnlineNow() async
+  {
+    Position pos = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    driverCurrentPosition = pos;
+
+    Geofire.initialize("activeDrivers");
+
+    Geofire.setLocation(
+        currentFirebaseUser!.uid,
+        driverCurrentPosition!.latitude,
+        driverCurrentPosition!.longitude
+    );
+
+    DatabaseReference ref = FirebaseDatabase.instance.ref()
+        .child("drivers")
+        .child(currentFirebaseUser!.uid)
+        .child("newRideStatus");
+
+    ref.set("idle"); //searching for ride request
+    ref.onValue.listen((event) { });
+  }
+
+  updateDriversLocationAtRealTime()
+  {
+    streamSubscriptionPosition = Geolocator.getPositionStream()
+        .listen((Position position)
+    {
+      driverCurrentPosition = position;
+
+      if(isDriverActive == true)
+      {
+        Geofire.setLocation(
+            currentFirebaseUser!.uid,
+            driverCurrentPosition!.latitude,
+            driverCurrentPosition!.longitude
+        );
+      }
+
+      LatLng latLng = LatLng(
+        driverCurrentPosition!.latitude,
+        driverCurrentPosition!.longitude,
       );
-    },
-    icon: Icon(Icons.power_settings_new_rounded, size: 17),
-  );
-}
 
-class PanelWidget extends StatelessWidget {
-  final ScrollController controller;
-  final PanelController panelController;
+      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+    });
+  }
 
-  const PanelWidget({
-    Key? key,
-    required this.controller,
-    required this.panelController,
-  }) : super(key: key);
+  driverIsOfflineNow()
+  {
+    Geofire.removeLocation(currentFirebaseUser!.uid);
 
-  @override
-  Widget build(BuildContext context) => ListView(
-    padding: EdgeInsets.zero,
-    controller: controller,
-    children: <Widget>[
-      SizedBox(height: 5),
-      buildAboutText(),
-    ],
-  );
-
-  Widget buildAboutText() => Container(
-    child: Center(
-      child: Column(
-        children: <Widget>[
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: SizedBox(
-              width: Adaptive.w(90),
-              height: 5.h,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.circle,
-                          size: 20,
-                          color: Colors.red,
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          'You’re offline.',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 12,
-                            letterSpacing: -0.5,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: SizedBox(
-                  width: Adaptive.w(48),
-                  height: 10.h,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.monetization_on,
-                              size: 40,
-                              color: Color(0xFF0CBC8B),
-                            ),
-                            SizedBox(width: 5),
-                            Column(
-                              children: <Widget>[
-                                Text('Earning Balance:',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w200,
-                                  ),
-                                ),
-                                SizedBox(height: 2),
-                                Row(
-                                  children: <Widget>[
-                                    Text('₱ 1,500',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w200,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: SizedBox(
-                  width: Adaptive.w(40),
-                  height: 10.h,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(width: 5),
-                            Column(
-                              children: <Widget>[
-                                Text('Total Passengers',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w200,
-                                  ),
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Text('4',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 32,
-                                        color: Color(0xFFCCCCCC),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-
-  void togglePanel() => panelController.isPanelOpen
-      ? panelController.close()
-      : panelController.open();
+    DatabaseReference? ref = FirebaseDatabase.instance.ref()
+        .child("drivers")
+        .child(currentFirebaseUser!.uid)
+        .child("newRideStatus");
+    ref.onDisconnect();
+    ref.remove();
+    ref = null;
+  }
 }

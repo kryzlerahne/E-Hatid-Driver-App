@@ -3,6 +3,7 @@ import 'package:ehatid_driver_app/Account/account.dart';
 import 'package:ehatid_driver_app/accept_decline.dart';
 import 'package:ehatid_driver_app/history.dart';
 import 'package:ehatid_driver_app/homescreen.dart';
+import 'package:ehatid_driver_app/homescreen_try2.dart';
 import 'package:ehatid_driver_app/wallet.dart';
 import 'package:flutter/material.dart';
 
