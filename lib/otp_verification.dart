@@ -290,7 +290,7 @@ class _OtpBodyState extends State<OtpBody> {
                       },
                     ),
                   ),
-                 SizedBox(height: 2.h),
+                  SizedBox(height: 2.h),
                   MaterialButton(
                     onPressed: (){
                       if(pin.length >= 6) {
@@ -320,7 +320,7 @@ class _OtpBodyState extends State<OtpBody> {
                   ),
                   SizedBox(height: 2.h),
                   Text("By continuing you’re indicating that you accept our Terms of Use and our Privacy Policy",
-                   maxLines: 2,
+                    maxLines: 2,
                     style: TextStyle(
                       height: .2.h,
                       fontSize: 15.sp,
@@ -331,12 +331,12 @@ class _OtpBodyState extends State<OtpBody> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-          ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

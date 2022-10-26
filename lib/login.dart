@@ -59,7 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future signIn() async {
+  Future signIn() async
+  {
     final User? firebaseUser = (
         await fAuth.signInWithEmailAndPassword(
           email: _emailController.text.trim(),

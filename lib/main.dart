@@ -1,8 +1,11 @@
 import 'package:ehatid_driver_app/accept_decline.dart';
+import 'package:ehatid_driver_app/app_info.dart';
 import 'package:ehatid_driver_app/homescreen.dart';
+import 'package:ehatid_driver_app/main_page.dart';
 import 'package:ehatid_driver_app/register_page.dart';
 import 'package:ehatid_driver_app/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'intro_slider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,18 +37,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            backgroundColor: Color(0xFFFED90F),
+        return ChangeNotifierProvider(
+          create: (context) => AppInfo(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              backgroundColor: Color(0xFFFED90F),
+            ),
+            //home: IntroSliderPage(),
+            initialRoute: initScreen == 0 ? 'welcome' : 'homepage',
+            // paltan ang login ng homepage
+            routes: {
+              'homepage': (context) => Navigation(),
+              'welcome': (context) => MainPage(),
+            },
           ),
-          //home: IntroSliderPage(),
-          initialRoute: initScreen == 0 ? 'welcome' : 'homepage',
-          // paltan ang login ng homepage
-          routes: {
-            'homepage': (context) => Navigation(),
-            'welcome': (context) => WelcomeScreen(),
-          },
         );
       },
     );

@@ -24,7 +24,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fontSize: 18,
                 fontWeight: FontWeight.bold)),
         elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
+      ),
       body: accountBody(),
     );
   }

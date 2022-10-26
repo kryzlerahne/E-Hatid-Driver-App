@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:ehatid_driver_app/location_service.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

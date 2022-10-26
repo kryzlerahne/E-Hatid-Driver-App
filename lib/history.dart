@@ -1,7 +1,6 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class History extends StatefulWidget {
   const History({super.key});
@@ -16,7 +15,7 @@ class _HistoryState extends State<History> {
     Size size = MediaQuery.of(context).size;
     //total height and width
     return Scaffold(
-      backgroundColor: Color(0xFFFED90F),
+      backgroundColor: Color(0xFFFFFCEA),
       body: SafeArea(
         child: Container(
           child: Stack(
@@ -30,7 +29,15 @@ class _HistoryState extends State<History> {
                     Positioned(
                       top: 0,
                       child: Image.asset(
-                        "assets/images/Vector 5.png",
+                        "assets/images/Vector 3.png",
+                        width: size.width,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: Image.asset(
+                        "assets/images/Vector 4.png",
                         width: size.width,
                       ),
                     ),
@@ -39,32 +46,23 @@ class _HistoryState extends State<History> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(10, 25, 10, 0),
+                  margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         "assets/images/ehatid logo.png",
-                        width: Adaptive.w(50),
+                        width: 350,
+                        height: 130,
                       ),
-                      SizedBox(height: Adaptive.h(1),),
-                      Container(
-                        width: Adaptive.w(90),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF3E8AE),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Text(
-                          "Rides History",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 28,
-                              letterSpacing: -2,
-                              fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                        ),
+                      Text(
+                        "Rides History",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 28,
+                            letterSpacing: -2,
+                            fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 1.h,),
                       Text(
                         'Recent Booking',
                         style: TextStyle(
@@ -73,7 +71,6 @@ class _HistoryState extends State<History> {
                           letterSpacing: 5,
                         ),
                       ),
-                      SizedBox(height: Adaptive.h(1),),
                       ElevatedCard(),
                       Booking1(),
                       Booking2(),
@@ -81,7 +78,6 @@ class _HistoryState extends State<History> {
                       Booking4(),
                       Booking5(),
                       Booking6(),
-                      SizedBox(height: Adaptive.h(3),),
                     ],
                   ),
                 ),
@@ -108,8 +104,8 @@ class ElevatedCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: SizedBox(
-            width: Adaptive.w(90),
-            height: Adaptive.h(8),
+            width: 300,
+            height: 80,
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -187,8 +183,8 @@ class Booking1 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -265,8 +261,8 @@ class Booking2 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -343,8 +339,8 @@ class Booking3 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -421,8 +417,8 @@ class Booking4 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -499,8 +495,8 @@ class Booking5 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -577,8 +573,8 @@ class Booking6 extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SizedBox(
-          width: Adaptive.w(90),
-          height: Adaptive.h(8),
+          width: 300,
+          height: 80,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

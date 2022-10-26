@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ehatid_driver_app/homescreen.dart';
 import 'package:ehatid_driver_app/login.dart';
 import 'package:ehatid_driver_app/navigation_bar.dart';
-import 'package:ehatid_driver_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   TextEditingController _userNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmpasswordController = TextEditingController();
@@ -41,6 +40,14 @@ class _RegisterPageState extends State<RegisterPage> {
     else if(_lastNameController.text == null || _lastNameController.text.isEmpty)
     {
       Fluttertoast.showToast(msg: "Please enter your last name.");
+    }
+    else if(_phoneController.text == null || _phoneController.text.isEmpty)
+    {
+      Fluttertoast.showToast(msg: "Please enter your phone number.");
+    }
+    else if(_phoneController.text.length != 11)
+    {
+      Fluttertoast.showToast(msg: "Invalid phone number.");
     }
     else if(_emailController.text != null && !_emailController.text.contains("@"))
     {
@@ -106,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
         "first_name": _firstNameController.text.trim(),
         "last_name": _firstNameController.text.trim(),
         "email": _emailController.text.trim(),
+        "phone": _phoneController.text.trim(),
         "username": _userNameController.text.trim(),
         "password": _passwordController.text.trim(),
       };
@@ -306,6 +314,35 @@ class _RegisterPageState extends State<RegisterPage> {
                           endIndent: 20.sp,
                         ),
                         SizedBox(height: 2.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
+                          child: TextFormField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFFFED90F),
+                                ),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: "Phone Number",
+                              hintStyle: TextStyle(
+                                color: Color(0xbc000000),
+                                fontSize: 15,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w400,
+                              ),
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 10.sp),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 1.5.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5)),
                           child: TextFormField(

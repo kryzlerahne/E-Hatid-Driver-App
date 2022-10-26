@@ -108,13 +108,16 @@ class _DestinationState extends State<Destination> {
               ),
             ),
           ),
-          Positioned(
-            right: 23.5.w,
-            top: 20.h,
-            child: Container(
-              height: Adaptive.h(5),
-              width: Adaptive.h(28),
-              child: GoOnline(context),
+          Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: Adaptive.h(5),
+                  width: Adaptive.h(28),
+                  child: GoOnline(context),
+                ),
+                SizedBox(height: 40.h),
+              ],
             ),
           ),
         ],
@@ -124,7 +127,7 @@ class _DestinationState extends State<Destination> {
 
   Widget GoOnline(BuildContext context) => FloatingActionButton.extended(
     label: Text('Booking Completed!',
-      style: TextStyle(fontFamily: 'Montserrat', fontSize: 12.sp),
+      style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.sp),
     ),
     backgroundColor: Color(0xFF0CBC8B),
     onPressed: (){

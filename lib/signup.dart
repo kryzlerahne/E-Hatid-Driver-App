@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ehatid_driver_app/main_page.dart';
-import 'package:ehatid_driver_app/otp_verification.dart';
+import 'package:ehatid_driver_app/login.dart';
+import 'package:ehatid_driver_app/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -139,9 +139,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               );
                             } else {
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => OtpBody(
-                                    phone: phoneController.text,
-                                    codeDigits: dialCodeDigits,
+                                  MaterialPageRoute(builder: (context) => RegisterPage(
+                                    /*phone: phoneController.text,
+                                    codeDigits: dialCodeDigits,*/
                                   )));
                             }
                           },
@@ -165,9 +165,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(
-                                  builder: (_) => MainPage(),
-                                ),
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => LoginScreen(),
+                                  ),
                                 );
                               },
                               child: Text("Login", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,  letterSpacing: -0.5, fontWeight: FontWeight.w600),),

@@ -1,16 +1,22 @@
 import 'dart:async';
+import 'package:ehatid_driver_app/geofire_assistant.dart';
+import 'package:ehatid_driver_app/active_nearby_available_passengers.dart';
+import 'package:ehatid_driver_app/profile_tab.dart';
+import 'package:ehatid_driver_app/push_notification_system.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'assistants/assistant_methods.dart';
-import 'global/global.dart';
+import 'app_info.dart';
+import 'assistant_methods.dart';
+import 'global.dart';
 import 'login.dart';
 
 
@@ -25,22 +31,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
 {
+  Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newGoogleMapController;
-  final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final currentFirebaseUser = FirebaseAuth.instance.currentUser!;
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(13.7752, 121.0453),
-    zoom: 18.4746,
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(13.7731, 121.0484),
+    zoom: 16,
   );
-  Position? driverCurrentPosition;
+
+  GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
+
   var geoLocator = Geolocator();
+
   LocationPermission? _locationPermission;
 
-  String statusText = "Go Online";
-  Color buttonColor = Color(0xFF0CBC8B);
-  bool isDriverActive = false;
+  List<LatLng> pLineCoOrdinatesList = [];
+  Set<Polyline> polyLineSet = {};
+
+  Set<Marker> markersSet = {};
+
+  bool activeNearbyDriverKeysLoaded = false; //Activedrivers code
+
+  //List<ActiveNearbyAvailableDrivers> onlineNearbyAvailableDriversList = [];
 
 
   Future<void> _signOut() async {
@@ -57,174 +71,6 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-
-  blackThemeGoogleMap()
-  {
-    newGoogleMapController!.setMapStyle('''
-                    [
-                      {
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#242f3e"
-                          }
-                        ]
-                      },
-                      {
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#746855"
-                          }
-                        ]
-                      },
-                      {
-                        "elementType": "labels.text.stroke",
-                        "stylers": [
-                          {
-                            "color": "#242f3e"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "administrative.locality",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#d59563"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "poi",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#d59563"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "poi.park",
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#263c3f"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "poi.park",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#6b9a76"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road",
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#38414e"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road",
-                        "elementType": "geometry.stroke",
-                        "stylers": [
-                          {
-                            "color": "#212a37"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#9ca5b3"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road.highway",
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#746855"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.stroke",
-                        "stylers": [
-                          {
-                            "color": "#1f2835"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "road.highway",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#f3d19c"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "transit",
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#2f3948"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "transit.station",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#d59563"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "water",
-                        "elementType": "geometry",
-                        "stylers": [
-                          {
-                            "color": "#17263c"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "water",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                          {
-                            "color": "#515c6d"
-                          }
-                        ]
-                      },
-                      {
-                        "featureType": "water",
-                        "elementType": "labels.text.stroke",
-                        "stylers": [
-                          {
-                            "color": "#17263c"
-                          }
-                        ]
-                      }
-                    ]
-                ''');
-  }
-
   checkIfLocationPermissionAllowed() async
   {
     _locationPermission = await Geolocator.requestPermission();
@@ -235,8 +81,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  locateDriverPosition() async
-  {
+  locateUserPosition() async {
     Position cPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     driverCurrentPosition = cPosition;
 
@@ -246,149 +91,85 @@ class _HomePageState extends State<HomePage>
 
     newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String humanReadableAddress = await AssistantMethods.searchAddressForGeographicCoOrdinates(driverCurrentPosition!, context);
-    print("this is your address = " + humanReadableAddress);
+    String humanReadableAddress = await AssistantMethods.searchAddressForGeographicCoordinates(driverCurrentPosition!, context);
+    print("this is your address =" + humanReadableAddress);
+
+    AssistantMethods.readDriverRatings(context);
+
+    //initializeGeoFireListener(); //Active Drivers
   }
 
-  @override
-  void initState()
+  readCurrentDriverInformation() async
   {
-    super.initState();
+    FirebaseDatabase.instance.ref()
+        .child("drivers")
+        .child(currentFirebaseUser.uid)
+        .once()
+        .then((snap)
+    {
+      if(snap.snapshot.value != null)
+      {
+        onlineDriverData.id = (snap.snapshot.value as Map)["id"];
+        onlineDriverData.first_name = (snap.snapshot.value as Map)["first_name"];
+        onlineDriverData.last_name = (snap.snapshot.value as Map)["last_name"];
+        onlineDriverData.phone = (snap.snapshot.value as Map)["phone"];
+        onlineDriverData.email = (snap.snapshot.value as Map)["email"];
+        onlineDriverData.plateNum = (snap.snapshot.value as Map)["plateNum"];
+      }
+    });
 
-    checkIfLocationPermissionAllowed();
+    PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
+    pushNotificationSystem.initializeCloudMessaging(context);
+    pushNotificationSystem.generateAndGetToken();
+
+    AssistantMethods.readDriverEarnings(context);
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    //_setMarker(LatLng(37.42796133580664, -122.085749655962));
+    checkIfLocationPermissionAllowed();
+    readCurrentDriverInformation();
+  }
+
+  /***
+  saveRideRequestInformation()
+  {
+    //save the Ride Request Information
+
+  }
+  ***/
+
+  @override
+  Widget build(BuildContext context)
+  {
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
-      child: Scaffold(
-        backgroundColor: Color(0xFFFFFCEA),
+      child: new Scaffold(
+        backgroundColor: Color(0xFFEBE5D8),
         appBar: AppBar(
           centerTitle: true,
           title: Text("Home"),
           backgroundColor: Color(0xFFFED90F),
-        ),
-        drawer: Drawer(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFED90F),
-                      ),
-                      accountName: new Text('Machu'),
-                      accountEmail: new Text(currentFirebaseUser.email!),
-                      currentAccountPicture: new CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: AssetImage("assets/images/machu.jpg"),
-                      ),
-                    ),
-                    ListTile(
-                      title: new Text("Account"),
-                      onTap: (){},
-                      leading: Icon(
-                        Icons.account_circle_sharp,
-                        color: Color(0xFFFED90F),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_right,
-                      ),
-                    ),
-                    ListTile(
-                      title: new Text("FAQ"),
-                      onTap: (){},
-                      leading: Icon(
-                        Icons.question_answer_outlined,
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_right,
-                      ),
-                    ),
-                    ListTile(
-                      title: new Text("How To Use App"),
-                      onTap: (){},
-                      leading: Icon(
-                        Icons.info_outline_rounded,
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_right,
-                      ),
-                    ),
-                    ListTile(
-                      title: new Text("Settings"),
-                      onTap: (){},
-                      leading: Icon(
-                        Icons.settings,
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_right,
-                      ),
-                    ),
-                    ListTile(
-                      title: new Text("Terms & Conditions"),
-                      onTap: (){},
-                      leading: Icon(
-                        Icons.book,
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_right,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Divider(),
-                              ListTile(
-                                title: Text("Sign Out"),
-                                onTap: () async => await _signOut(),
-                                leading: Icon(
-                                  Icons.logout,
-                                ),
-                                trailing: Icon(
-                                  Icons.arrow_right,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
         body: Stack(
           children: [
             GoogleMap(
               mapType: MapType.normal,
               myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
               initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller)
-              {
+              polylines: polyLineSet,
+              markers: markersSet,
+              onMapCreated: (GoogleMapController controller) {
                 _controllerGoogleMap.complete(controller);
                 newGoogleMapController = controller;
 
-                //black theme google map
-                // blackThemeGoogleMap();
-
-                locateDriverPosition();
+                locateUserPosition();
               },
             ),
-
             //ui for online offline driver
             statusText != "Go Offline"
                 ? Container(
@@ -401,7 +182,7 @@ class _HomePageState extends State<HomePage>
             //button for online offline driver
             Positioned(
               top: statusText != "Go Offline"
-                  ? MediaQuery.of(context).size.height * 0.46
+                  ? 40.h
                   : 25,
               left: 0,
               right: 0,
@@ -412,7 +193,7 @@ class _HomePageState extends State<HomePage>
                     onPressed: ()
                     {
                       if(isDriverActive != true) //offline
-                          {
+                        {
                         driverIsOnlineNow();
                         updateDriversLocationAtRealTime();
 
@@ -426,7 +207,7 @@ class _HomePageState extends State<HomePage>
                         Fluttertoast.showToast(msg: "You're Now Online");
                       }
                       else //online
-                          {
+                      {
                         driverIsOfflineNow();
 
                         setState(() {
@@ -440,7 +221,7 @@ class _HomePageState extends State<HomePage>
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: buttonColor,
+                      backgroundColor: buttonColor,
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(26),
@@ -465,7 +246,90 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ],
-        ),),);
+        ),
+      ),
+    );
+  }
+
+  /***
+  //Section 17: Para Mapalabas ang ACTIVE
+  initializeGeoFireListener() {
+    Geofire.initialize("activePassengers");
+    Geofire.queryAtLocation(
+        driverCurrentPosition!.latitude, driverCurrentPosition!.longitude, 2)!
+        .listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        //latitude will be retrieved from map['latitude']
+        //longitude will be retrieved from map['longitude']
+
+        switch (callBack)
+            {
+          case Geofire.onKeyEntered: //whenever any driver become active or online
+            ActiveNearbyAvailableDrivers activeNearbyAvailableDrivers = ActiveNearbyAvailableDrivers();
+            activeNearbyAvailableDrivers.locationLatitude = map['latitude'];
+            activeNearbyAvailableDrivers.locationLongitude = map['longitude'];
+            activeNearbyAvailableDrivers.driverId = map['key'];
+            GeoFireAssistant.activeNearbyAvailableDriversList.add(activeNearbyAvailableDrivers);
+            if(activeNearbyDriverKeysLoaded == true)
+            {
+              displayActiveDriversOnUsersMap();
+            }
+            break;
+
+          case Geofire.onKeyExited: //whenever any driver become non-active or offline
+            GeoFireAssistant.deleteOfflineDriverFromList(map['key']);
+            break;
+
+        //whenever the driver moves - update driver location
+          case Geofire.onKeyMoved:
+            ActiveNearbyAvailableDrivers activeNearbyAvailableDrivers = ActiveNearbyAvailableDrivers();
+            activeNearbyAvailableDrivers.locationLatitude = map['latitude'];
+            activeNearbyAvailableDrivers.locationLongitude = map['longitude'];
+            activeNearbyAvailableDrivers.driverId = map['key'];
+            GeoFireAssistant.updateActiveNearbyAvailableDriveLocation(activeNearbyAvailableDrivers);
+            displayActiveDriversOnUsersMap();
+            break;
+
+        //display those online drivers on users map
+          case Geofire.onGeoQueryReady:
+            displayActiveDriversOnUsersMap();
+            break;
+        }
+      }
+
+      setState(() {});
+    });
+  }
+   ***/
+
+  displayActiveDriversOnUsersMap()
+  {
+    setState(() {
+      markersSet.clear();
+
+      Set<Marker> driversMarketSet = Set<Marker>();
+
+      for(ActiveNearbyAvailableDrivers eachDriver in GeoFireAssistant.activeNearbyAvailableDriversList)
+      {
+        LatLng eachDriverActivePosition = LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
+
+        Marker marker = Marker(
+          markerId: MarkerId(eachDriver.driverId!),
+          position: eachDriverActivePosition,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          rotation: 360,
+        );
+
+        driversMarketSet.add(marker);
+      }
+
+      setState(() {
+        markersSet = driversMarketSet;
+      });
+    });
   }
 
   driverIsOnlineNow() async
@@ -478,14 +342,14 @@ class _HomePageState extends State<HomePage>
     Geofire.initialize("activeDrivers");
 
     Geofire.setLocation(
-        currentFirebaseUser!.uid,
+        currentFirebaseUser.uid,
         driverCurrentPosition!.latitude,
         driverCurrentPosition!.longitude
     );
 
     DatabaseReference ref = FirebaseDatabase.instance.ref()
         .child("drivers")
-        .child(currentFirebaseUser!.uid)
+        .child(currentFirebaseUser.uid)
         .child("newRideStatus");
 
     ref.set("idle"); //searching for ride request
@@ -502,7 +366,7 @@ class _HomePageState extends State<HomePage>
       if(isDriverActive == true)
       {
         Geofire.setLocation(
-            currentFirebaseUser!.uid,
+            currentFirebaseUser.uid,
             driverCurrentPosition!.latitude,
             driverCurrentPosition!.longitude
         );
@@ -519,11 +383,11 @@ class _HomePageState extends State<HomePage>
 
   driverIsOfflineNow()
   {
-    Geofire.removeLocation(currentFirebaseUser!.uid);
+    Geofire.removeLocation(currentFirebaseUser.uid);
 
     DatabaseReference? ref = FirebaseDatabase.instance.ref()
         .child("drivers")
-        .child(currentFirebaseUser!.uid)
+        .child(currentFirebaseUser.uid)
         .child("newRideStatus");
     ref.onDisconnect();
     ref.remove();

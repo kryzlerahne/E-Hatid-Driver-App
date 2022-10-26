@@ -12,78 +12,6 @@ import 'dart:math' show cos, sqrt, asin;
 import 'accept_decline.dart';
 import 'main.dart';
 
-/*class DriverMap extends StatefulWidget {
-  @override
-  State<DriverMap> createState() => _DriverMapState();
-}
-
-class _DriverMapState extends State<DriverMap> {
-  TextEditingController latController = TextEditingController();
-  TextEditingController lngController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Map Driver',
-            style:TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.bold)),
-        centerTitle: true,
-        backgroundColor: Color(0xFFFED90F),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            'Fetching destination...',
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 40, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          TextField(
-            controller: latController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'latitude',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            controller: lngController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'longitude',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: double.infinity,
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => NavigationScreen(
-                          double.parse(latController.text),
-                          double.parse(lngController.text))));
-                },
-                child: Text('Get Directions'),
-              style: ElevatedButton.styleFrom(
-                  primary: Color(0xFFFED90F),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold)),
-            ),
-            ),
-        ],
-        ),
-      ),
-    );
-  }
-}*/
-
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
 
@@ -203,7 +131,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               borderRadius: BorderRadius.circular(19)
           ),
           child: Container(
-            height: 45.h,
+            height: 48.h,
             child: Column(
               children: [
                 Container(

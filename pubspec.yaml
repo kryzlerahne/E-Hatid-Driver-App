@@ -68,6 +68,15 @@ dependencies:
   url_launcher: ^6.1.5
   http: ^0.13.5
 
+  #rating
+  smooth_star_rating_nsafe: ^1.0.0+1
+
+  #music
+  assets_audio_player: ^3.0.5
+
+  #notification
+  firebase_messaging: ^13.1.0
+
   #Firebase Database
   cloud_firestore: ^3.4.8
 
@@ -104,6 +113,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/Vector 2.png
+    - assets/music/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
